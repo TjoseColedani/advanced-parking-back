@@ -9,5 +9,6 @@ este es el repositorio del back para el proyecto final de henry
 
 Coledani Grillo, Jose Salvador - Back 
 
-Gotlib, Gabriel - Front
+Gotlib, Gabriel - Front \n 
+asdasdasdasdas
 
