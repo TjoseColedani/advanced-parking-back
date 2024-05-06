@@ -11,3 +11,4 @@ este es el repositorio del back para el proyecto final de henry
 - Gotlib, Gabriel - Front
 - Ibargüen Currea, Diego Sebastian - Front
 - Salas Seeber, Simón - Back
+- Lencina, Marcelo Daniel
