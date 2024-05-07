@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Slot } from './slot.entity';
 
 @Entity({
   name: 'parking_lot',
@@ -15,4 +16,7 @@ export class ParkingLot {
 
   @Column({ type: 'varchar' })
   location: string;
+
+  @OneToMany(() => Slot, (slot) => slot.parking_lot)
+  slot: Slot;
 }
