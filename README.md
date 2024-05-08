@@ -2,13 +2,13 @@
 
 este es el repositorio del back para el proyecto final de henry
 
-
 09
 
 ## integrantes
 
-- Coledani Grillo, Jose Salvador - Back 
+- Coledani Grillo, Jose Salvador - Back
 - Gotlib, Gabriel - Front
 - Ibargüen Currea, Diego Sebastian - Front
 - Salas Seeber, Simón - Back
 - Lencina, Marcelo Daniel - Back
+- Gutiérrez Tello, Mario Sebastián
