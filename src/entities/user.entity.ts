@@ -21,8 +21,11 @@ export class User {
   @Column({ type: 'bigint' })
   phone: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: Role.User })
   role: Role;
+
+  @Column({ type: 'varchar' })
+  status: 'active' | 'deleted';
 
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointments: Appointment[];
