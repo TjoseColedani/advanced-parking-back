@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import databaseConfig from './config/database.config';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ParkingLotModule } from './parking-lot/parking-lot.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     UserModule,
     AuthModule,
+    ParkingLotModule,
   ],
   controllers: [AppController],
   providers: [AppService],
