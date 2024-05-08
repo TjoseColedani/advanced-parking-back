@@ -53,8 +53,8 @@ export class PaymentService {
 
               ],
               mode: "payment",
-              success_url: "http://localhost:3000/success",
-              cancel_url: "http://localhost:3000/cancel",
+              success_url: "http://localhost:3000/success", // <-- payment successfull - front
+              cancel_url: "http://localhost:3000/cancel", // <-- couldnt process payment/cancellation - front
             });
         
             console.log(session);
@@ -64,3 +64,4 @@ export class PaymentService {
           }
   }
 }
+
