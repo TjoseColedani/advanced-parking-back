@@ -17,14 +17,11 @@ export class Slot {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'integer' })
-  slot_stock: number;
-
   @Column({ default: SlotStatus.Available })
   slot_status: SlotStatus;
 
   @OneToMany(() => Appointment, (appointment) => appointment.slot)
-  appointment: Appointment;
+  appointment: Appointment | null;
 
   @ManyToOne(() => ParkingLot, (parking_lot) => parking_lot.slot)
   @JoinColumn({ name: 'parking_lot_id' })
