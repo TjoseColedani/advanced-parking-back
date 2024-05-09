@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Appointment } from './appointment.entity';
 import { ParkingLot } from './parkingLot.entity';
+import { SlotStatus } from 'src/enums/slot-status.enum';
 
 @Entity({
   name: 'slots',
@@ -17,10 +18,10 @@ export class Slot {
   id: string;
 
   @Column({ type: 'integer' })
-  slot_number: number;
+  slot_stock: number;
 
-  @Column({ type: 'boolean' })
-  is_free: boolean;
+  @Column({ default: SlotStatus.Available })
+  slot_status: SlotStatus;
 
   @OneToMany(() => Appointment, (appointment) => appointment.slot)
   appointment: Appointment;
