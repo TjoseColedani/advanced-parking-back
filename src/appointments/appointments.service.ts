@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AppointmentsRepository } from './appointments.repository';
-import { appointmentDto } from 'src/dtos/Appointments.dto';
+import { CreateAppointmentDto } from 'src/dtos/Appointments.dto';
 
 @Injectable()
 export class AppointmentsService {
@@ -10,7 +10,7 @@ export class AppointmentsService {
   async getAppointments(page: number, limit: number) {
     return await this.appointmentsRepository.getAppointments(page, limit);
   }
-  async createAppointments(appointment: appointmentDto) {
+  async createAppointments(appointment: CreateAppointmentDto) {
     return await this.appointmentsRepository.createAppointments(appointment);
   }
   async addAppointment() {

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
-import { appointmentDto } from 'src/dtos/Appointments.dto';
+import { CreateAppointmentDto } from 'src/dtos/Appointments.dto';
 
 @Controller('appointments')
 export class AppointmentsController {
@@ -15,13 +15,9 @@ export class AppointmentsController {
   }
 
   @Post()
-  async createAppointment(@Body() appointment: appointmentDto) {
+  async createAppointment(@Body() appointment: CreateAppointmentDto) {
+    console.log('llegmos');
     return await this.appointmentsService.createAppointments(appointment);
-  }
-
-  @Post()
-  async addAppointment() {
-    return this.appointmentsService.addAppointment();
   }
 
   @Put(':id')

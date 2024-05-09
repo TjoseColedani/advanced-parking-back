@@ -1,11 +1,12 @@
 import { BadRequestException, Injectable, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { appointmentDto } from 'src/dtos/Appointments.dto';
+import { CreateAppointmentDto } from 'src/dtos/Appointments.dto';
 import { Appointment } from 'src/entities/appointment.entity';
 import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { Slot } from 'src/entities/slot.entity';
 import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { SlotStatus } from 'src/enums/slot-status.enum';
+import { MoreThan, Repository } from 'typeorm';
 
 @Injectable()
 export class AppointmentsRepository {
@@ -38,23 +39,53 @@ export class AppointmentsRepository {
     appointments = appointments.slice(start, end);
     return appointments;
   }
-  async createAppointments(appointment: appointmentDto) {
+  async createAppointments({
+    parkingLotId,
+    ...appointment
+  }: CreateAppointmentDto) {
     const oldAppointment = await this.appointmentsRepository.findOne({
       where: { license_plate: appointment.license_plate },
     });
     if (oldAppointment) {
       throw new BadRequestException('Appointment already exists');
     }
+    const slotInParkingLot = await this.parkingLotRepository.findOne({
+      where: { id: parkingLotId, slots_stock: MoreThan(0) },
+    });
 
+    if (!slotInParkingLot) {
+      throw new BadRequestException('Parking lot is full');
+    }
+    const slot = await this.slotRepository.findOne({
+      where: {
+        parking_lot: slotInParkingLot,
+        slot_status: SlotStatus.Available,
+      },
+    });
     const newAppointment = new Appointment();
 
     newAppointment.license_plate = appointment.license_plate;
     newAppointment.date = appointment.date;
     newAppointment.time = appointment.time;
-    newAppointment.duration = appointment.duration;
     newAppointment.is_parked = appointment.is_parked;
+    newAppointment.duration = appointment.duration;
+    newAppointment.slot = slot;
 
-    return await this.appointmentsRepository.save(newAppointment);
+    const createdAppointment =
+      await this.appointmentsRepository.save(newAppointment);
+    if (!createdAppointment)
+      throw new BadRequestException('error saving appointment');
+
+    await this.slotRepository.update(slot.id, {
+      slot_status: SlotStatus.Reserved,
+    });
+    await this.parkingLotRepository.update(parkingLotId, {
+      slots_stock: slotInParkingLot.slots_stock - 1,
+    });
+    return await this.appointmentsRepository.findOne({
+      where: { id: createdAppointment.id },
+      relations: { slot: { parking_lot: true } },
+    });
   }
   async addAppointment() {}
 

@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ParkingLotModule } from './parking-lot/parking-lot.module';
 import { PaymentModule } from './payment/payment.module';
 import { SlotModule } from './slot/slot.module';
+import { AppointmentModule } from './appointments/appointments.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { SlotModule } from './slot/slot.module';
     ParkingLotModule,
     PaymentModule,
     SlotModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
