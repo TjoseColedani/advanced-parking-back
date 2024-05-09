@@ -1,7 +1,7 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Controller, OnModuleInit } from '@nestjs/common';
 import { SlotService } from './slot.service';
 
-@Injectable()
+@Controller()
 export class SlotController implements OnModuleInit {
   constructor(private readonly slotService: SlotService) {}
 
