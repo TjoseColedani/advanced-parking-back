@@ -1,17 +1,19 @@
 import { Controller, Get, Post, Redirect, Req, Res } from '@nestjs/common';
+import { PaymentService } from './payment.service';
 
 @Controller('payment')
 export class PaymentController {
+    constructor(private readonly paymentService: PaymentService) {}
     
   @Post('create-checkout-session')
   createSession(@Req() req, @Res() res) {
-    // Lógica para crear la sesión de pago
-  }
+        return this.paymentService.createSession(req, res)
+    }
 
   @Get('success')
   success() {}
 
   @Get('cancel')
   cancel() {}
-  
+
 }

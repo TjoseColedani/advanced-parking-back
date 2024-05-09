@@ -8,9 +8,6 @@ import databaseConfig from './config/database.config';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ParkingLotModule } from './parking-lot/parking-lot.module';
-import { PaymentFlatController } from './payment/payment--flat/payment--flat.controller';
-import { PaymentController } from './payment/payment.controller';
-import { PaymentService } from './payment/payment.service';
 import { PaymentModule } from './payment/payment.module';
 
 
@@ -35,7 +32,7 @@ import { PaymentModule } from './payment/payment.module';
     ParkingLotModule,
     PaymentModule,
   ],
-  controllers: [AppController, PaymentFlatController, PaymentController],
-  providers: [AppService, PaymentService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
