@@ -4,11 +4,10 @@ import { PaymentService } from './payment.service';
 import Stripe from 'stripe';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env.development'], 
+      envFilePath: ['.env.development'],
     }),
   ],
   controllers: [PaymentController],
@@ -25,5 +24,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   exports: [PaymentService],
 })
-
 export class PaymentModule {}

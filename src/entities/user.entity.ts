@@ -1,4 +1,4 @@
-import { Role } from 'src/roles.enum';
+import { Role } from 'src/enums/roles.enum';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Appointment } from './appointment.entity';
 

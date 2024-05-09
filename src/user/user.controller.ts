@@ -11,7 +11,7 @@ import {
 import { UserService } from './user.service';
 import { UpdateUserDto } from 'src/dtos/user.dto';
 import { Roles } from 'src/decorators/roles.decorators';
-import { Role } from 'src/roles.enum';
+import { Role } from 'src/enums/roles.enum';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { RolesGuard } from 'src/guards/roles.guards';
 
