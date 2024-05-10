@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { Repository } from 'typeorm';
@@ -41,5 +41,18 @@ export class ParkingLotRepository {
         relations: { slot: true },
       });
     }
+  }
+
+  async getParkingLotById(id: string) {
+    const parkingLotById = await this.parkingLotRepository.findOne({
+      where: { id },
+      relations: { slot: true },
+    });
+
+    if (!parkingLotById) {
+      throw new NotFoundException('Parking lot not found');
+    }
+
+    return parkingLotById;
   }
 }
