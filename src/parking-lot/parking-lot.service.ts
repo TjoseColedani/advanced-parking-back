@@ -12,4 +12,8 @@ export class ParkingLotService {
   getParkingLots(page?: number, limit?: number) {
     return this.parkingLotRepository.getParkingLots(page, limit);
   }
+
+  getParkingLotById(id: string) {
+    return this.parkingLotRepository.getParkingLotById(id);
+  }
 }
