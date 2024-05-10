@@ -43,6 +43,8 @@ export class AppointmentsRepository {
     parkingLotId,
     ...appointment
   }: CreateAppointmentDto) {
+    if (parkingLotId === undefined)
+      throw new BadRequestException('Parking id cannot be undefined');
     const oldAppointment = await this.appointmentsRepository.findOne({
       where: { license_plate: appointment.license_plate },
     });
@@ -62,6 +64,8 @@ export class AppointmentsRepository {
         slot_status: SlotStatus.Available,
       },
     });
+
+    if (!slot) throw new BadRequestException('Parking slot is not available');
     const newAppointment = new Appointment();
 
     newAppointment.license_plate = appointment.license_plate;
@@ -76,9 +80,13 @@ export class AppointmentsRepository {
     if (!createdAppointment)
       throw new BadRequestException('error saving appointment');
 
-    await this.slotRepository.update(slot.id, {
-      slot_status: SlotStatus.Reserved,
-    });
+    try {
+      await this.slotRepository.update(slot.id, {
+        slot_status: SlotStatus.Reserved,
+      });
+    } catch {
+      throw new BadRequestException('error updating slot');
+    }
     await this.parkingLotRepository.update(parkingLotId, {
       slots_stock: slotInParkingLot.slots_stock - 1,
     });

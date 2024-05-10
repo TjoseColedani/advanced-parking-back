@@ -31,7 +31,6 @@ export class UserRepository {
       email,
       status: 'active',
     });
-    if (!user) throw new NotFoundException('User not found');
     return user;
   }
 
