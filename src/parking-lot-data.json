@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Estacionamiento Santa Fe",
+    "slots_stock": 90,
+    "location": "Avenida Cordoba 2345"
+  },
+  {
+    "name": "Estacionamiento Rosario",
+    "slots_stock": 60,
+    "location": "Calle San Martin 5678"
+  },
+  {
+    "name": "Estacionamiento Central",
+    "slots_stock": 50,
+    "location": "Calle Belgrano 789"
+  },
+  {
+    "name": "Estacionamiento del Sol",
+    "slots_stock": 120,
+    "location": "Avenida Corrientes 2345"
+  },
+  {
+    "name": "Estacionamiento Plaza",
+    "slots_stock": 200,
+    "location": "Calle Florida 678"
+  },
+  {
+    "name": "Estacionamiento Aurora",
+    "slots_stock": 80,
+    "location": "Avenida Rivadavia 3456"
+  },
+  {
+    "name": "Estacionamiento Victoria",
+    "slots_stock": 150,
+    "location": "Calle Sarmiento 901"
+  }
+]
