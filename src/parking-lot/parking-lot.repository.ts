@@ -27,4 +27,19 @@ export class ParkingLotRepository {
       }),
     );
   }
+
+  async getParkingLots(page?: number, limit?: number) {
+    if (page !== undefined && limit !== undefined) {
+      const offset = (page - 1) * limit;
+      return await this.parkingLotRepository.find({
+        relations: { slot: true },
+        skip: offset,
+        take: limit,
+      });
+    } else {
+      return await this.parkingLotRepository.find({
+        relations: { slot: true },
+      });
+    }
+  }
 }
