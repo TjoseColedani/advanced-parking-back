@@ -1,11 +1,12 @@
-import { Controller, OnModuleInit } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { SlotService } from './slot.service';
 
-@Controller()
-export class SlotController implements OnModuleInit {
+@Controller('slot')
+export class SlotController {
   constructor(private readonly slotService: SlotService) {}
 
-  async onModuleInit() {
-    await this.slotService.slotSeeder();
+  @Get('seeder')
+  async slotSeeder() {
+    return await this.slotService.slotSeeder();
   }
 }

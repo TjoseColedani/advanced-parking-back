@@ -19,7 +19,9 @@ export class SlotRepository {
 
     await Promise.all(
       data?.map(async (item) => {
-        const parking = parkingLot.find((lot) => lot.id === item.parkin_lot_id);
+        const parking = parkingLot.find(
+          (lot) => lot.id === item.parking_lot_id,
+        );
 
         const slot = new Slot();
         slot.slot_status = item.slot_status as SlotStatus;
