@@ -33,5 +33,95 @@
     "name": "Estacionamiento Victoria",
     "slots_stock": 150,
     "location": "Calle Sarmiento 901"
+  },
+  {
+    "name": "Estacionamiento Buenos Aires",
+    "slots_stock": 100,
+    "location": "Avenida Santa Fe 1234"
+  },
+  {
+    "name": "Estacionamiento Mendoza",
+    "slots_stock": 80,
+    "location": "Calle Entre Rios 5678"
+  },
+  {
+    "name": "Estacionamiento Tucumán",
+    "slots_stock": 70,
+    "location": "Avenida Mayo 901"
+  },
+  {
+    "name": "Estacionamiento Cordoba",
+    "slots_stock": 110,
+    "location": "Calle Salta 3456"
+  },
+  {
+    "name": "Estacionamiento La Plata",
+    "slots_stock": 150,
+    "location": "Avenida Rivadavia 5678"
+  },
+  {
+    "name": "Estacionamiento Neuquén",
+    "slots_stock": 90,
+    "location": "Calle San Juan 1234"
+  },
+  {
+    "name": "Estacionamiento Salta",
+    "slots_stock": 120,
+    "location": "Avenida Belgrano 678"
+  },
+  {
+    "name": "Estacionamiento Jujuy",
+    "slots_stock": 60,
+    "location": "Calle Santiago del Estero 901"
+  },
+  {
+    "name": "Estacionamiento Chaco",
+    "slots_stock": 100,
+    "location": "Avenida Pellegrini 2345"
+  },
+  {
+    "name": "Estacionamiento Santa Cruz",
+    "slots_stock": 80,
+    "location": "Calle 25 de Mayo 5678"
+  },
+  {
+    "name": "Estacionamiento Tierra del Fuego",
+    "slots_stock": 70,
+    "location": "Avenida San Martin 901"
+  },
+  {
+    "name": "Estacionamiento Formosa",
+    "slots_stock": 110,
+    "location": "Calle Alberdi 3456"
+  },
+  {
+    "name": "Estacionamiento Catamarca",
+    "slots_stock": 150,
+    "location": "Avenida 9 de Julio 5678"
+  },
+  {
+    "name": "Estacionamiento Santa Rosa",
+    "slots_stock": 90,
+    "location": "Calle Mitre 1234"
+  },
+  {
+    "name": "Estacionamiento San Juan",
+    "slots_stock": 120,
+    "location": "Avenida Independencia 678"
+  },
+  {
+    "name": "Estacionamiento La Rioja",
+    "slots_stock": 60,
+    "location": "Calle San Luis 901"
+  },
+  {
+    "name": "Estacionamiento Santiago del Estero",
+    "slots_stock": 100,
+    "location": "Avenida Avellaneda 2345"
+  },
+  {
+    "name": "Estacionamiento Entre Rios",
+    "slots_stock": 80,
+    "location": "Calle 9 de Julio 5678"
   }
 ]

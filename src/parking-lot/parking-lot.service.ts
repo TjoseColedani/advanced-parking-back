@@ -8,4 +8,8 @@ export class ParkingLotService {
   addParkingLots() {
     return this.parkingLotRepository.addParkingLots();
   }
+
+  getParkingLots(page?: number, limit?: number) {
+    return this.parkingLotRepository.getParkingLots(page, limit);
+  }
 }

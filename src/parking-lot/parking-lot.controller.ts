@@ -1,11 +1,20 @@
-import { Controller, OnModuleInit } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ParkingLotService } from './parking-lot.service';
 
 @Controller('parking-lot')
-export class ParkingLotController implements OnModuleInit {
+export class ParkingLotController {
   constructor(private readonly parkingLotService: ParkingLotService) {}
 
-  async onModuleInit() {
-    await this.parkingLotService.addParkingLots();
+  @Get('seeder')
+  async addParkingLots() {
+    return this.parkingLotService.addParkingLots();
+  }
+
+  @Get()
+  async getParkingLots(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.parkingLotService.getParkingLots(page, limit);
   }
 }
