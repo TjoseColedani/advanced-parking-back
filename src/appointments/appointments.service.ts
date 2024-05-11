@@ -13,9 +13,6 @@ export class AppointmentsService {
   async createAppointments(appointment: CreateAppointmentDto) {
     return await this.appointmentsRepository.createAppointments(appointment);
   }
-  async addAppointment() {
-    return await this.appointmentsRepository.addAppointment();
-  }
 
   async updateAppointment() {
     return await this.appointmentsRepository.updateAppointment();
