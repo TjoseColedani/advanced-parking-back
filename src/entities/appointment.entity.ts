@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 import { Slot } from './slot.entity';
+import { ParkingLot } from './parkingLot.entity';
 
 @Entity({
   name: 'appointments',
@@ -37,4 +38,8 @@ export class Appointment {
   @ManyToOne(() => Slot, (slot) => slot.appointment)
   @JoinColumn({ name: 'slot_id' })
   slot: Slot;
+
+  @ManyToOne(() => ParkingLot, (parkingLot) => parkingLot.appointments)
+  @JoinColumn({ name: 'parking_lot_id' })
+  parking_lot: ParkingLot;
 }
