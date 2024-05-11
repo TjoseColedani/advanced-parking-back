@@ -22,6 +22,7 @@ export class UserRepository {
     const user = await this.userRepository.findOne({
       where: { id },
       select: ['id', 'name', 'email', 'phone'],
+      relations: { appointments: { slot: true } },
     });
     if (!user) throw new NotFoundException('User not found');
     return user;

@@ -1,6 +1,14 @@
-import { BadRequestException, Injectable, Param } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  Param,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateAppointmentDto } from 'src/dtos/Appointments.dto';
+import {
+  CreateAppointmentDto,
+  UpdateAppointmentDto,
+} from 'src/dtos/Appointments.dto';
 import { Appointment } from 'src/entities/appointment.entity';
 import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { Slot } from 'src/entities/slot.entity';
@@ -95,14 +103,53 @@ export class AppointmentsRepository {
       relations: { slot: { parking_lot: true } },
     });
   }
-  async addAppointment() {}
-
-  async updateAppointment() {}
-  async getAppointmentById(@Param('id') id: string) {
+  async updateAppointmentStatus(id: string, newStatus: UpdateAppointmentDto) {
     const appointment = await this.appointmentsRepository.findOneBy({ id });
+    if (!appointment) {
+      throw new NotFoundException('Appointment not found');
+    }
+    const slot = await this.slotRepository.findOne({
+      where: { id: appointment.slot.id },
+    });
+    if (!slot) {
+      throw new NotFoundException('Slot not found');
+    }
+    await this.appointmentsRepository.update(appointment.id, {
+      is_parked: newStatus.is_parked,
+    });
+
+    await this.slotRepository.update(slot.id, {
+      slot_status: newStatus.slot_status,
+    });
+    return await this.appointmentsRepository.findOne({
+      where: { id },
+      relations: { slot: { parking_lot: true } },
+    });
+  }
+  async cancelAppointment(id: string) {
+    const appointment = await this.appointmentsRepository.findOne({
+      where: { id: id, status: 'active' },
+    });
+    if (!appointment) {
+      throw new NotFoundException('Appointment not found');
+    }
+    const slot = await this.slotRepository.update(appointment.slot.id, {
+      slot_status: SlotStatus.Available,
+    });
+    if (!slot) {
+      throw new BadRequestException('Error to update');
+    }
+    await this.appointmentsRepository.update(id, { status: 'deleted' });
+    return 'appointment cancelled successfully';
+  }
+  async getAppointmentById(@Param('id') id: string) {
+    const appointment = await this.appointmentsRepository.findOne({
+      where: { id: id },
+      relations: { slot: { parking_lot: true } },
+    });
 
     if (!appointment) {
-      throw new BadRequestException('Appointment not found');
+      throw new NotFoundException('Appointment not found');
     }
 
     return appointment;
