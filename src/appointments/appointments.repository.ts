@@ -23,21 +23,24 @@ export class AppointmentsRepository {
     @InjectRepository(ParkingLot)
     private parkingLotRepository: Repository<ParkingLot>,
   ) {}
-  async getAppointments(page: number, limit: number): Promise<Appointment[]> {
-    let appointments = await this.appointmentsRepository.find({
-      relations: {
-        user: true,
-        slot: {
-          parking_lot: true,
+  async getAppointments(page?: number, limit?: number): Promise<Appointment[]> {
+    if (page !== undefined && limit !== undefined) {
+      const offset = (page - 1) * limit;
+      return await this.appointmentsRepository.find({
+        relations: {
+          user: true,
+          slot: {
+            parking_lot: true,
+          },
         },
-      },
-    });
-
-    const start = (page - 1) * limit;
-    const end = start + +limit;
-
-    appointments = appointments.slice(start, end);
-    return appointments;
+        take: limit,
+        skip: offset,
+      });
+    } else {
+      return await this.appointmentsRepository.find({
+        relations: { slot: { parking_lot: true } },
+      });
+    }
   }
   async createAppointments({
     parkingLotId,

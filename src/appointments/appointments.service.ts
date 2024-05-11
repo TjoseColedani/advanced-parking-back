@@ -7,7 +7,7 @@ export class AppointmentsService {
   constructor(
     private readonly appointmentsRepository: AppointmentsRepository,
   ) {}
-  async getAppointments(page: number, limit: number) {
+  async getAppointments(page?: number, limit?: number) {
     return await this.appointmentsRepository.getAppointments(page, limit);
   }
   async createAppointments(appointment: CreateAppointmentDto) {
