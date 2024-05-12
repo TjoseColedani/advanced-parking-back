@@ -43,7 +43,7 @@ export class AppointmentsRepository {
     parkingLotId,
     ...appointment
   }: CreateAppointmentDto) {
-    if (parkingLotId === undefined)
+    if (!parkingLotId)
       throw new BadRequestException('Parking id cannot be undefined');
     const oldAppointment = await this.appointmentsRepository.findOne({
       where: { license_plate: appointment.license_plate },
@@ -99,7 +99,10 @@ export class AppointmentsRepository {
 
   async updateAppointment() {}
   async getAppointmentById(@Param('id') id: string) {
-    const appointment = await this.appointmentsRepository.findOneBy({ id });
+    const appointment = await this.appointmentsRepository.findOne({
+      where: { id },
+      relations: { slot: { parking_lot: true } },
+    });
 
     if (!appointment) {
       throw new BadRequestException('Appointment not found');
