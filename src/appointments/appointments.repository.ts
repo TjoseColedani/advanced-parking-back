@@ -51,7 +51,7 @@ export class AppointmentsRepository {
     parkingLotId,
     ...appointment
   }: CreateAppointmentDto) {
-    if (parkingLotId === undefined)
+    if (!parkingLotId)
       throw new BadRequestException('Parking id cannot be undefined');
 
     const user = await this.userRepository.findOne({
