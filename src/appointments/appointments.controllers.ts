@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from 'src/dtos/Appointments.dto';
 
@@ -8,8 +17,8 @@ export class AppointmentsController {
 
   @Get()
   async getAppointments(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('limit', ParseIntPipe) limit: number = 10,
   ) {
     return this.appointmentsService.getAppointments(page, limit);
   }

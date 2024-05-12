@@ -7,14 +7,11 @@ export class AppointmentsService {
   constructor(
     private readonly appointmentsRepository: AppointmentsRepository,
   ) {}
-  async getAppointments(page: number, limit: number) {
+  async getAppointments(page?: number, limit?: number) {
     return await this.appointmentsRepository.getAppointments(page, limit);
   }
   async createAppointments(appointment: CreateAppointmentDto) {
     return await this.appointmentsRepository.createAppointments(appointment);
-  }
-  async addAppointment() {
-    return await this.appointmentsRepository.addAppointment();
   }
 
   async updateAppointment() {

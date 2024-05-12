@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Param } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  Param,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAppointmentDto } from 'src/dtos/Appointments.dto';
 import { Appointment } from 'src/entities/appointment.entity';
@@ -23,41 +28,69 @@ export class AppointmentsRepository {
     @InjectRepository(ParkingLot)
     private parkingLotRepository: Repository<ParkingLot>,
   ) {}
-  async getAppointments(page: number, limit: number): Promise<Appointment[]> {
-    let appointments = await this.appointmentsRepository.find({
-      relations: {
-        user: true,
-        slot: {
-          parking_lot: true,
+  async getAppointments(page?: number, limit?: number): Promise<Appointment[]> {
+    if (page !== undefined && limit !== undefined) {
+      const offset = (page - 1) * limit;
+      return await this.appointmentsRepository.find({
+        relations: {
+          user: true,
+          slot: {
+            parking_lot: true,
+          },
         },
-      },
-    });
-
-    const start = (page - 1) * limit;
-    const end = start + +limit;
-
-    appointments = appointments.slice(start, end);
-    return appointments;
+        take: limit,
+        skip: offset,
+      });
+    } else {
+      return await this.appointmentsRepository.find({
+        relations: { slot: { parking_lot: true } },
+      });
+    }
   }
   async createAppointments({
     parkingLotId,
     ...appointment
   }: CreateAppointmentDto) {
-    if (parkingLotId === undefined)
+    if (!parkingLotId)
       throw new BadRequestException('Parking id cannot be undefined');
-    const oldAppointment = await this.appointmentsRepository.findOne({
-      where: { license_plate: appointment.license_plate },
+
+    const user = await this.userRepository.findOne({
+      where: { id: appointment.user_id },
     });
-    if (oldAppointment) {
+    if (!user) throw new NotFoundException('User not found');
+
+    const parkingLot = await this.parkingLotRepository.findOneBy({
+      id: parkingLotId,
+    });
+    if (!parkingLot) throw new NotFoundException('Parking lot not found');
+
+    const myAppointment = await this.appointmentsRepository.findOne({
+      where: {
+        license_plate: appointment.license_plate,
+      },
+    });
+    if (myAppointment) {
       throw new BadRequestException('Appointment already exists');
     }
+
+    const oldAppointment = await this.appointmentsRepository.findOne({
+      where: {
+        date: appointment.date,
+        time: appointment.time,
+        parking_lot: parkingLot,
+      },
+    });
+    if (oldAppointment) {
+      throw new BadRequestException('Not found a slot available');
+    }
+
     const slotInParkingLot = await this.parkingLotRepository.findOne({
       where: { id: parkingLotId, slots_stock: MoreThan(0) },
     });
-
     if (!slotInParkingLot) {
       throw new BadRequestException('Parking lot is full');
     }
+
     const slot = await this.slotRepository.findOne({
       where: {
         parking_lot: slotInParkingLot,
@@ -72,8 +105,10 @@ export class AppointmentsRepository {
     newAppointment.date = appointment.date;
     newAppointment.time = appointment.time;
     newAppointment.is_parked = appointment.is_parked;
+    newAppointment.user = user;
     newAppointment.duration = appointment.duration;
     newAppointment.slot = slot;
+    newAppointment.parking_lot = parkingLot;
 
     const createdAppointment =
       await this.appointmentsRepository.save(newAppointment);
@@ -92,10 +127,9 @@ export class AppointmentsRepository {
     });
     return await this.appointmentsRepository.findOne({
       where: { id: createdAppointment.id },
-      relations: { slot: { parking_lot: true } },
+      relations: { parking_lot: { slot: true } },
     });
   }
-  async addAppointment() {}
 
   async updateAppointment() {}
   async getAppointmentById(@Param('id') id: string) {

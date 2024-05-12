@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Slot } from './slot.entity';
+import { Appointment } from './appointment.entity';
 
 @Entity({
   name: 'parking_lot',
@@ -19,4 +20,7 @@ export class ParkingLot {
 
   @OneToMany(() => Slot, (slot) => slot.parking_lot)
   slot: Slot;
+
+  @OneToMany(() => Appointment, (appointment) => appointment.parking_lot)
+  appointments: Appointment[];
 }
