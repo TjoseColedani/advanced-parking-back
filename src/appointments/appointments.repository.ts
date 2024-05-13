@@ -127,7 +127,7 @@ export class AppointmentsRepository {
     });
     return await this.appointmentsRepository.findOne({
       where: { id: createdAppointment.id },
-      relations: { parking_lot: { slot: true } },
+      relations: { parking_lot: true, slot: true },
     });
   }
 
