@@ -19,10 +19,35 @@ export class PaymentService {
     const { type_of_service, unit_amount } = createPaymentDto;
     try {
       const session = await this.stripe.checkout.sessions.create({
+        // recibir por body
         line_items: [
           {
             price_data: {
               product_data: {
+                name: 'Gold Subscription',
+              },
+              currency: 'usd',
+              unit_amount: 20,
+            },
+            quantity: 1,
+          },
+          {
+            price_data: {
+              product_data: {
+                name: 'Platinum Subscription',
+              },
+              currency: 'usd',
+              unit_amount: 30,
+            },
+            quantity: 1,
+          },
+          {
+            price_data: {
+              product_data: {
+                name: 'Normal Subscription',
+              },
+              currency: 'usd',
+              unit_amount: 10,
                 name: type_of_service,
               },
               currency: 'usd',
@@ -32,6 +57,17 @@ export class PaymentService {
           },
         ],
         mode: 'payment',
+        success_url: 'http://localhost:3000/success', // <-- payment successfull - front
+        cancel_url: 'http://localhost:3000/cancel', // <-- couldnt process payment/cancellation - front
+      });
+
+      console.log(session);
+      return res.json({ url: session.url });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+}
         success_url: 'http://localhost:3000/success', // <-- payment successful - front
         cancel_url: 'http://localhost:3000/cancel', // <-- couldn't process payment/cancellation - front
       });
