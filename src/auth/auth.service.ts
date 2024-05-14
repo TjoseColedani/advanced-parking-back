@@ -35,6 +35,7 @@ export class AuthService {
   }
 
   async signUpAuth(user: CreateUserAuthDto) {
+    if (!user) throw new BadRequestException('User is required');
     const userFound = await this.usersRepository.getUserByEmail(user.email);
     if (userFound) return this.signInAuth(user.email);
     else {
