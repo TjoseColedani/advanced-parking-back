@@ -36,16 +36,18 @@ export class AuthService {
 
   async signUpAuth(user: CreateUserAuthDto) {
     const userFound = await this.usersRepository.getUserByEmail(user.email);
-    if (userFound) throw new BadRequestException('User already exists');
-    const newUser = new User();
-    newUser.name = user.name;
-    newUser.email = user.email;
-    newUser.image = user.image;
-    newUser.password = user.name.split(' ').join('').toLowerCase();
+    if (userFound) return this.signInAuth(user.email);
+    else {
+      const newUser = new User();
+      newUser.name = user.name;
+      newUser.email = user.email;
+      newUser.image = user.image;
+      newUser.password = user.name.split(' ').join('').toLowerCase();
 
-    const createdUser = await this.usersRepository.createUserAuth(newUser);
-    if (!createdUser) throw new BadRequestException('Error creating user');
-    return createdUser;
+      const createdUser = await this.usersRepository.createUserAuth(newUser);
+      if (!createdUser) throw new BadRequestException('Error creating user');
+      return this.signInAuth(createdUser.email);
+    }
   }
 
   async signin(email: string, password: string) {
