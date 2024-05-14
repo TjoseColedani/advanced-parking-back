@@ -3,10 +3,11 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/dtos/user.dto';
+import { CreateUserAuthDto, CreateUserDto } from 'src/dtos/user.dto';
 import { UserRepository } from 'src/user/user.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +34,20 @@ export class AuthService {
     return createdUser;
   }
 
+  async signUpAuth(user: CreateUserAuthDto) {
+    const userFound = await this.usersRepository.getUserByEmail(user.email);
+    if (userFound) throw new BadRequestException('User already exists');
+    const newUser = new User();
+    newUser.name = user.name;
+    newUser.email = user.email;
+    newUser.image = user.image;
+    newUser.password = user.name.split(' ').join('').toLowerCase();
+
+    const createdUser = await this.usersRepository.createUserAuth(newUser);
+    if (!createdUser) throw new BadRequestException('Error creating user');
+    return createdUser;
+  }
+
   async signin(email: string, password: string) {
     const user = await this.usersRepository.getUserByEmail(email);
 
@@ -42,6 +57,29 @@ export class AuthService {
 
     if (!isValidPassword)
       throw new UnauthorizedException('invalid credentials');
+
+    const userPayload = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    };
+
+    const token = this.jwtService.sign(userPayload);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: userpassword, ...userData } = user;
+
+    return {
+      message: 'Logged in successfully',
+      token,
+      userData,
+    };
+  }
+
+  async signInAuth(email: string) {
+    const user = await this.usersRepository.getUserByEmail(email);
+
+    if (!user) throw new UnauthorizedException('invalid credentials');
 
     const userPayload = {
       id: user.id,
