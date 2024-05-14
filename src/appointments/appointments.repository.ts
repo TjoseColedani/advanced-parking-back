@@ -133,7 +133,10 @@ export class AppointmentsRepository {
 
   async updateAppointment() {}
   async getAppointmentById(@Param('id') id: string) {
-    const appointment = await this.appointmentsRepository.findOneBy({ id });
+    const appointment = await this.appointmentsRepository.findOne({
+      where: { id: id },
+      relations: { parking_lot: true, slot: true },
+    });
 
     if (!appointment) {
       throw new BadRequestException('Appointment not found');
