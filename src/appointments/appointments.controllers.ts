@@ -2,8 +2,9 @@ import {
   Body,
   Controller,
   Get,
-  Param,
+  Param
   ParseUUIDPipe,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -20,8 +21,8 @@ export class AppointmentsController {
 
   @Get()
   async getAppointments(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('limit', ParseIntPipe) limit: number = 10,
   ) {
     return this.appointmentsService.getAppointments(page, limit);
   }
