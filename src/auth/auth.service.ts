@@ -8,12 +8,14 @@ import { UserRepository } from 'src/user/user.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/entities/user.entity';
+import { EmailSenderRepository } from 'src/email-sender/email-sender.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersRepository: UserRepository,
     private jwtService: JwtService,
+    private readonly emailSenderRepository: EmailSenderRepository,
   ) {}
 
   async signup(user: CreateUserDto) {
@@ -47,6 +49,10 @@ export class AuthService {
 
       const createdUser = await this.usersRepository.createUserAuth(newUser);
       if (!createdUser) throw new BadRequestException('Error creating user');
+      await this.emailSenderRepository.sendRegisterEmail(
+        newUser.name,
+        newUser.email,
+      );
       return this.signInAuth(createdUser.email);
     }
   }

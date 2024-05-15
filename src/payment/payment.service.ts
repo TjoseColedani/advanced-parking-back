@@ -16,9 +16,10 @@ const { STRIPE_PRIVATE_KEY, endpointSecret } = process.env;
 
 @Injectable()
 export class PaymentService {
-  constructor(private stripe: Stripe,
+  constructor(
+    private stripe: Stripe,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private readonly paymentRepository: PaymentRepository
+    private readonly paymentRepository: PaymentRepository,
   ) {
     this.stripe = new Stripe(STRIPE_PRIVATE_KEY);
   }
@@ -71,43 +72,43 @@ export class PaymentService {
   }
 
   async handlePayment(rawBody, requestNormal) {
+    // Check if webhook signing is configured.
+    if (endpointSecret) {
+      // Retrieve the event by verifying the signature using the raw body and secret.
+      let event;
+      let signature = requestNormal.headers['stripe-signature'];
+      try {
+        event = this.stripe.webhooks.constructEvent(
+          rawBody,
+          signature,
+          endpointSecret,
+        );
+      } catch (err) {
+        console.log(`⚠️  Webhook signature verification failed.`);
+        return 'construction event failed';
+      }
 
-  // Check if webhook signing is configured.
-  if (endpointSecret) {
-    // Retrieve the event by verifying the signature using the raw body and secret.
-    let event;
-    let signature = requestNormal.headers["stripe-signature"];
-    try {
-      event = this.stripe.webhooks.constructEvent(
-        rawBody,
-        signature,
-        endpointSecret
-      );
-    } catch (err) {
-      console.log(`⚠️  Webhook signature verification failed.`);
-      return "construction event failed";
+      if (event.data.object.status === 'succeeded') {
+        console.log(event.data.object);
+
+        const emailDelPagador = event.data.object.billing_details.email;
+        const amount_paid = event.data.object.amount / 100;
+        const user = await this.userRepository.findOneBy({
+          email: emailDelPagador,
+        });
+
+        const type_of_service = 'One time payment';
+        await this.paymentRepository.createPayment(
+          type_of_service,
+          user,
+          amount_paid,
+        );
+
+        console.log(`🔔  Payment received!`);
+      } else {
+        console.log('There is no succeeded status');
+        return { event: event.data.object };
+      }
     }
-
-  if (event.data.object.status === "succeeded") {
-    console.log(event.data.object);
-
-    const emailDelPagador = event.data.object.billing_details.email;
-    const amount_paid = event.data.object.amount / 100;
-    const user = await this.userRepository.findOneBy({
-      email: emailDelPagador,
-    });;
-    
-    const type_of_service = "One time payment";
-    await this.paymentRepository.createPayment(type_of_service, user, amount_paid)
-
-    console.log(`🔔  Payment received!`);
-  } else {
-    console.log("There is no succeeded status")
-    return {event: event.data.object}
   }
-
-  
-  
-  }
-}
 }
