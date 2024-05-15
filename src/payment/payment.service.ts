@@ -24,30 +24,26 @@ export class PaymentService {
           {
             price_data: {
               product_data: {
-                name: 'Gold Subscription',
+                name: type_of_service,
               },
               currency: 'usd',
-              unit_amount: 20,
+              unit_amount: unit_amount * 100,
             },
             quantity: 1,
           },
           {
             price_data: {
               product_data: {
-                name: 'Platinum Subscription',
+                name: type_of_service,
               },
               currency: 'usd',
-              unit_amount: 30,
+              unit_amount: unit_amount * 100,
             },
             quantity: 1,
           },
           {
             price_data: {
               product_data: {
-                name: 'Normal Subscription',
-              },
-              currency: 'usd',
-              unit_amount: 10,
                 name: type_of_service,
               },
               currency: 'usd',
@@ -60,17 +56,6 @@ export class PaymentService {
         success_url: 'http://localhost:3000/success', // <-- payment successfull - front
         cancel_url: 'http://localhost:3000/cancel', // <-- couldnt process payment/cancellation - front
       });
-
-      console.log(session);
-      return res.json({ url: session.url });
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  }
-}
-        success_url: 'http://localhost:3000/success', // <-- payment successful - front
-        cancel_url: 'http://localhost:3000/cancel', // <-- couldn't process payment/cancellation - front
-      });
       return { url: session.url, session: session };
     } catch (error) {
       return { message: error.message };
@@ -82,23 +67,28 @@ export class PaymentService {
     let event;
 
     try {
-      event = this.stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-    } catch (error) {
-      return {message: error.message};
-    }
-    switch (event.type) {
-      case 'payment_intent.succeeded':
-          const paymentIntentSucceeded = event.data.object;
-          const userEmail = event.data.object.billing_details.email;
-          if (paymentIntentSucceeded.paid) {
-            // Search for user and return ID
-            // Create using TypeORM in a new table
-          }
-          break;
-        default:
-          return { error: "Couldn't handle payment" };
-      }
+      event = this.stripe.webhooks.constructEvent(
+        request.body,
+        sig,
+        endpointSecret,
+      );
     } catch (error) {
       return { message: error.message };
     }
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        const paymentIntentSucceeded = event.data.object;
+        const userEmail = event.data.object.billing_details.email;
+        if (paymentIntentSucceeded.paid) {
+          // Search for user and return ID
+          // Create using TypeORM in a new table
+        }
+        break;
+      default:
+        return { error: "Couldn't handle payment" };
+    }
   }
+  catch(error) {
+    return { message: error.message };
+  }
+}

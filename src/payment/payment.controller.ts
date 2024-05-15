@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from 'src/dtos/payment.dto';
-
 
 @Controller('payment')
 export class PaymentController {
@@ -14,6 +13,6 @@ export class PaymentController {
 
   @Post()
   async handleWebhook(@Req() request: Request) {
-    return await this.paymentService.handlePayment(request)
+    return await this.paymentService.handlePayment(request);
   }
 }

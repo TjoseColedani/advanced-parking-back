@@ -2,7 +2,7 @@ import {
   Body,
   Controller,
   Get,
-  Param
+  Param,
   ParseUUIDPipe,
   ParseIntPipe,
   Post,
