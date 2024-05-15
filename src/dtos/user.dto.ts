@@ -5,6 +5,11 @@ export class CreateUserDto {
   confirmPassword: string;
   phone: number;
 }
+export class CreateUserAuthDto {
+  name: string;
+  email: string;
+  image: string;
+}
 
 export class UpdateUserDto {
   name: string;

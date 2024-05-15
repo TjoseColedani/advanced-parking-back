@@ -3,13 +3,17 @@ import {
   Controller,
   Get,
   Param,
+  ParseUUIDPipe,
   ParseIntPipe,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
-import { CreateAppointmentDto } from 'src/dtos/Appointments.dto';
+import {
+  CreateAppointmentDto,
+  UpdateAppointmentDto,
+} from 'src/dtos/Appointments.dto';
 
 @Controller('appointments')
 export class AppointmentsController {
@@ -30,11 +34,20 @@ export class AppointmentsController {
   }
 
   @Put(':id')
-  async updateAppointment() {
-    return this.appointmentsService.updateAppointment();
+  async updateAppointmentStatus(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() newStatus: UpdateAppointmentDto,
+  ) {
+    return this.appointmentsService.updateAppointmentStatus(id, newStatus);
   }
+
+  @Put('/cancel/:id')
+  async cancelAppointment(@Param('id', ParseUUIDPipe) id: string) {
+    return this.appointmentsService.cancelAppointment(id);
+  }
+
   @Get(':id')
-  async getAppointmentById(@Param('id') id: string) {
+  async getAppointmentById(@Param('id', ParseUUIDPipe) id: string) {
     return this.appointmentsService.getAppointmentById(id);
   }
 }

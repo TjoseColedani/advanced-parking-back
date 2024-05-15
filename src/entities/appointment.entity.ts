@@ -33,6 +33,9 @@ export class Appointment {
   @Column({ type: 'boolean' })
   is_parked: boolean;
 
+  @Column({ type: 'varchar' })
+  status: 'active' | 'deleted';
+
   @ManyToOne(() => User, (user) => user.appointments)
   @JoinColumn({ name: 'user_id' })
   user: User;

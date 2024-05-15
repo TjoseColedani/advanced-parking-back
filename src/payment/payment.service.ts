@@ -27,7 +27,28 @@ export class PaymentService {
     const { type_of_service, unit_amount, appointment_id } = createPaymentDto;
     try {
       const session = await this.stripe.checkout.sessions.create({
+        // recibir por body
         line_items: [
+          {
+            price_data: {
+              product_data: {
+                name: type_of_service,
+              },
+              currency: 'usd',
+              unit_amount: unit_amount * 100,
+            },
+            quantity: 1,
+          },
+          {
+            price_data: {
+              product_data: {
+                name: type_of_service,
+              },
+              currency: 'usd',
+              unit_amount: unit_amount * 100,
+            },
+            quantity: 1,
+          },
           {
             price_data: {
               product_data: {

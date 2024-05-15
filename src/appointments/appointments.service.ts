@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { AppointmentsRepository } from './appointments.repository';
-import { CreateAppointmentDto } from 'src/dtos/Appointments.dto';
+import {
+  CreateAppointmentDto,
+  UpdateAppointmentDto,
+} from 'src/dtos/Appointments.dto';
 
 @Injectable()
 export class AppointmentsService {
@@ -14,8 +17,14 @@ export class AppointmentsService {
     return await this.appointmentsRepository.createAppointments(appointment);
   }
 
-  async updateAppointment() {
-    return await this.appointmentsRepository.updateAppointment();
+  async updateAppointmentStatus(id: string, newStatus: UpdateAppointmentDto) {
+    return await this.appointmentsRepository.updateAppointmentStatus(
+      id,
+      newStatus,
+    );
+  }
+  async cancelAppointment(id: string) {
+    return await this.appointmentsRepository.cancelAppointment(id);
   }
   async getAppointmentById(id: string) {
     return await this.appointmentsRepository.getAppointmentById(id);

@@ -51,6 +51,14 @@ export class UserRepository {
     return createdUser;
   }
 
+  async createUserAuth(user: User) {
+    const newUser = await this.userRepository.save(user);
+    return this.userRepository.findOne({
+      where: { id: newUser.id },
+      select: ['id', 'name', 'email', 'phone', 'image'],
+    });
+  }
+
   async updateUser(id: string, user: UpdateUserDto): Promise<User> {
     const foundUser = await this.userRepository.findOne({
       where: { id },
