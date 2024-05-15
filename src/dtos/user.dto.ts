@@ -81,6 +81,11 @@ export class CreateUserDto {
   @IsNumber()
   phone: number;
 }
+export class CreateUserAuthDto {
+  name: string;
+  email: string;
+  image: string;
+}
 
 export class UpdateUserDto {
   /**

@@ -35,6 +35,7 @@ export class User {
   })
   password: string;
 
+  @Column({ type: 'bigint', default: 12345678 })
   @Column({ type: 'bigint' })
   @ApiProperty({
     description: 'Número de teléfono del usuario',
@@ -56,6 +57,9 @@ export class User {
     example: 'active',
   })
   status: 'active' | 'deleted';
+
+  @Column({ type: 'varchar', nullable: true })
+  image: string;
 
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   @ApiProperty({

@@ -22,7 +22,7 @@ export class UserRepository {
     const user = await this.userRepository.findOne({
       where: { id },
       select: ['id', 'name', 'email', 'phone'],
-      relations: { appointments: { slot: true } },
+      relations: { appointments: true },
     });
     if (!user) throw new NotFoundException('User not found');
     return user;
@@ -49,6 +49,14 @@ export class UserRepository {
     });
 
     return createdUser;
+  }
+
+  async createUserAuth(user: User) {
+    const newUser = await this.userRepository.save(user);
+    return this.userRepository.findOne({
+      where: { id: newUser.id },
+      select: ['id', 'name', 'email', 'phone', 'image'],
+    });
   }
 
   async updateUser(id: string, user: UpdateUserDto): Promise<User> {

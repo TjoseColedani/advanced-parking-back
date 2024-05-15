@@ -8,6 +8,7 @@ import {
 import { User } from './user.entity';
 import { Slot } from './slot.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { ParkingLot } from './parkingLot.entity';
 
 @Entity({
   name: 'appointments',
@@ -77,4 +78,8 @@ export class Appointment {
     type: () => Slot,
   })
   slot: Slot;
+
+  @ManyToOne(() => ParkingLot, (parkingLot) => parkingLot.appointments)
+  @JoinColumn({ name: 'parking_lot_id' })
+  parking_lot: ParkingLot;
 }

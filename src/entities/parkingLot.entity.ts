@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Slot } from './slot.entity';
+import { Appointment } from './appointment.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({
@@ -42,4 +43,7 @@ export class ParkingLot {
     isArray: true,
   })
   slot: Slot;
+
+  @OneToMany(() => Appointment, (appointment) => appointment.parking_lot)
+  appointments: Appointment[];
 }
