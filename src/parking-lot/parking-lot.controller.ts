@@ -1,6 +1,8 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ParkingLotService } from './parking-lot.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('parking-lot')
 @Controller('parking-lot')
 export class ParkingLotController {
   constructor(private readonly parkingLotService: ParkingLotService) {}

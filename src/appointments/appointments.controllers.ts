@@ -13,7 +13,9 @@ import {
   CreateAppointmentDto,
   UpdateAppointmentDto,
 } from 'src/dtos/Appointments.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('appointments')
 @Controller('appointments')
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
