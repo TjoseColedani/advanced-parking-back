@@ -3,7 +3,9 @@ import { AppModule } from './app.module';
 import * as morgan from 'morgan';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true
+  });
   app.enableCors();
   app.use(morgan('dev'));
   await app.listen(3001);

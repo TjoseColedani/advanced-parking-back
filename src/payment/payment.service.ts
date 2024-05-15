@@ -32,8 +32,8 @@ export class PaymentService {
           },
         ],
         mode: 'payment',
-        success_url: 'http://localhost:3000/success', // <-- payment successful - front
-        cancel_url: 'http://localhost:3000/cancel', // <-- couldn't process payment/cancellation - front
+        success_url: 'http://localhost:3001/success', // <-- payment successful - front
+        cancel_url: 'http://localhost:3001/cancel', // <-- couldn't process payment/cancellation - front
       });
       return { url: session.url, session: session };
     } catch (error) {
@@ -41,28 +41,33 @@ export class PaymentService {
     }
   }
 
-  async handlePayment(request) {
-    const sig = request.headers['stripe-signature'];
-    let event;
+  async handlePayment(rawBody, requestNormal) {
 
+  // Check if webhook signing is configured.
+  if (endpointSecret) {
+    // Retrieve the event by verifying the signature using the raw body and secret.
+    let event;
+    let signature = requestNormal.headers["stripe-signature"];
     try {
-      event = this.stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-    } catch (error) {
-      return {message: error.message};
+      event = this.stripe.webhooks.constructEvent(
+        rawBody,
+        signature,
+        endpointSecret
+      );
+    } catch (err) {
+      console.log(`⚠️  Webhook signature verification failed.`);
+      return "construction event failed";
     }
-    switch (event.type) {
-      case 'payment_intent.succeeded':
-          const paymentIntentSucceeded = event.data.object;
-          const userEmail = event.data.object.billing_details.email;
-          if (paymentIntentSucceeded.paid) {
-            // Search for user and return ID
-            // Create using TypeORM in a new table
-          }
-          break;
-        default:
-          return { error: "Couldn't handle payment" };
-      }
-    } catch (error) {
-      return { message: error.message };
-    }
+
+  if (event.data.object.status === "succeeded") {
+    console.log(`🔔  Payment received!`);
+  } else {
+    console.log("no es succeded")
+    return {event: event.data.object}
   }
+
+  
+  
+  }
+}
+}
