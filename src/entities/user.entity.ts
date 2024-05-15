@@ -1,6 +1,7 @@
 import { Role } from 'src/enums/roles.enum';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Appointment } from './appointment.entity';
+import { Payment } from './payment.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({
@@ -68,4 +69,7 @@ export class User {
     isArray: true,
   })
   appointments: Appointment[];
+
+  @OneToMany(() => Payment, (payment) => payment.user)
+  payment: Payment;
 }

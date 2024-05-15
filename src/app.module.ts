@@ -11,6 +11,9 @@ import { ParkingLotModule } from './parking-lot/parking-lot.module';
 import { PaymentModule } from './payment/payment.module';
 import { SlotModule } from './slot/slot.module';
 import { AppointmentModule } from './appointments/appointments.module';
+import { mailerConfig } from './config/mailer.config';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { EmailSenderModule } from './email-sender/email-sender.module';
 
 @Module({
   imports: [
@@ -21,19 +24,21 @@ import { AppointmentModule } from './appointments/appointments.module';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
-        configService.get('typeorm'),
+        configService.get('typeorm')
     }),
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '5h' },
     }),
+    MailerModule.forRoot(mailerConfig()),
     UserModule,
     AuthModule,
     ParkingLotModule,
     PaymentModule,
     SlotModule,
     AppointmentModule,
+    EmailSenderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

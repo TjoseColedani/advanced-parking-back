@@ -1,7 +1,14 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  RawBodyRequest,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from 'src/dtos/payment.dto';
-
+import { Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('payment')
@@ -14,8 +21,12 @@ export class PaymentController {
     return await this.paymentService.createSession(createPaymentDto);
   }
 
-  @Post()
-  async handleWebhook(@Req() request: Request) {
-    return await this.paymentService.handlePayment(request)
+  @Post('webhook')
+  async handleWebhook(
+    @Req() requestToTransform: RawBodyRequest<Request>,
+    @Req() requestNormal: Request,
+  ) {
+    const rawBody = requestToTransform.rawBody;
+    return await this.paymentService.handlePayment(rawBody, requestNormal);
   }
 }
