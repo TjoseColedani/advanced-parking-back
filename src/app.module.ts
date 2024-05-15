@@ -24,7 +24,7 @@ import { EmailSenderModule } from './email-sender/email-sender.module';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
-        configService.get('typeorm')
+        configService.get('typeorm'),
     }),
     JwtModule.register({
       global: true,
