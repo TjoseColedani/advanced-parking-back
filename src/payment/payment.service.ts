@@ -2,6 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Stripe } from 'stripe';
 import { config as dotenvConfig } from 'dotenv';
 import { CreatePaymentDto } from 'src/dtos/payment.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/entities/user.entity';
+import { PaymentRepository } from './payment.repository';
+import { UserRepository } from 'src/user/user.repository';
+import { Repository } from 'typeorm';
 
 dotenvConfig({
   path: './.env.development',
@@ -11,7 +16,10 @@ const { STRIPE_PRIVATE_KEY, endpointSecret } = process.env;
 
 @Injectable()
 export class PaymentService {
-  constructor(private stripe: Stripe) {
+  constructor(private stripe: Stripe,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly paymentRepository: PaymentRepository
+  ) {
     this.stripe = new Stripe(STRIPE_PRIVATE_KEY);
   }
 
@@ -60,9 +68,18 @@ export class PaymentService {
     }
 
   if (event.data.object.status === "succeeded") {
+    console.log(event.data.object);
+
+    const emailDelPagador = event.data.object.billing_details.email;
+    const user = await this.userRepository.findOneBy({
+      email: emailDelPagador,
+    });;
+    
+    const type_of_service = event.data.object.description;
+    await this.paymentRepository.createPayment(type_of_service, user)
     console.log(`🔔  Payment received!`);
   } else {
-    console.log("no es succeded")
+    console.log("There is no succeeded status")
     return {event: event.data.object}
   }
 

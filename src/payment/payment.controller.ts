@@ -4,7 +4,7 @@ import { CreatePaymentDto } from 'src/dtos/payment.dto';
 import { Request } from 'express';
 
 
-@Controller('')
+@Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 

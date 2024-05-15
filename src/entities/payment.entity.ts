@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-// import { User } from './user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity({
   name: 'payment',
@@ -13,8 +13,6 @@ export class Payment {
   })
   type_of_service: string;
 
-  // @ManyToOne(() => User, user => user.payment)
-  // @JoinColumn({ name: 'user_id' })
-
-  // user: User;
+  @ManyToOne(() => User, user => user.payment)
+  user: User;
 }

@@ -21,7 +21,7 @@ import { AppointmentModule } from './appointments/appointments.module';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) =>
-        configService.get('typeorm'),
+        configService.get('typeorm')
     }),
     JwtModule.register({
       global: true,
