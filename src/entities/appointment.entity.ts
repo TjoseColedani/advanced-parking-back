@@ -3,11 +3,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Slot } from './slot.entity';
 import { ParkingLot } from './parkingLot.entity';
+import { Payment } from './payment.entity';
 
 @Entity({
   name: 'appointments',
@@ -45,4 +47,7 @@ export class Appointment {
   @ManyToOne(() => ParkingLot, (parkingLot) => parkingLot.appointments)
   @JoinColumn({ name: 'parking_lot_id' })
   parking_lot: ParkingLot;
+
+  @OneToOne(() => Payment, payment => payment.appointment)
+  payment: Payment;
 }

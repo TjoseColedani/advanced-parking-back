@@ -1,6 +1,7 @@
 import { Role } from 'src/enums/roles.enum';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Appointment } from './appointment.entity';
+import { Payment } from './payment.entity';
 
 @Entity({
   name: 'users',
@@ -32,4 +33,7 @@ export class User {
 
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointments: Appointment[];
+
+  @OneToMany(() => Payment, (payment) => payment.user)
+  payment: Payment;
 }

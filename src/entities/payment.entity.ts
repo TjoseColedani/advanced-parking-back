@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-// import { User } from './user.entity';
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from './user.entity';
+import { Appointment } from './appointment.entity';
 
 @Entity({
   name: 'payment',
@@ -13,8 +14,12 @@ export class Payment {
   })
   type_of_service: string;
 
-  // @ManyToOne(() => User, user => user.payment)
-  // @JoinColumn({ name: 'user_id' })
+  @Column({default: 0})
+  amount_paid: number;
 
-  // user: User;
+  @ManyToOne(() => User, user => user.payment)
+  user: User;
+
+  @OneToOne(() => Appointment, appointment => appointment.payment)
+  appointment: Appointment;
 }
