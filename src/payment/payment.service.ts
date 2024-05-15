@@ -24,7 +24,7 @@ export class PaymentService {
   }
 
   async createSession(createPaymentDto: CreatePaymentDto) {
-    const { type_of_service, unit_amount } = createPaymentDto;
+    const { type_of_service, unit_amount, appointment_id } = createPaymentDto;
     try {
       const session = await this.stripe.checkout.sessions.create({
         line_items: [
@@ -40,8 +40,8 @@ export class PaymentService {
           },
         ],
         mode: 'payment',
-        success_url: 'http://localhost:3001/success', // <-- payment successful - front
-        cancel_url: 'http://localhost:3001/cancel', // <-- couldn't process payment/cancellation - front
+        success_url: `http://localhost:3000/success/${appointment_id}`, // <-- payment successful - front
+        cancel_url: 'http://localhost:3000/cancel', // <-- couldn't process payment/cancellation - front
       });
       return { url: session.url, session: session };
     } catch (error) {
@@ -71,12 +71,14 @@ export class PaymentService {
     console.log(event.data.object);
 
     const emailDelPagador = event.data.object.billing_details.email;
+    const amount_paid = event.data.object.amount / 100;
     const user = await this.userRepository.findOneBy({
       email: emailDelPagador,
     });;
     
-    const type_of_service = event.data.object.description;
-    await this.paymentRepository.createPayment(type_of_service, user)
+    const type_of_service = "One time payment";
+    await this.paymentRepository.createPayment(type_of_service, user, amount_paid)
+
     console.log(`🔔  Payment received!`);
   } else {
     console.log("There is no succeeded status")

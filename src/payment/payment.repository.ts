@@ -11,9 +11,10 @@ export class PaymentRepository {
     @InjectRepository(Payment) private readonly paymentRepository: Repository<Payment>,
   ) {}
 
-  async createPayment(type_of_service: string, user: User) {
+  async createPayment(type_of_service: string, user: User, amount_paid: number) {
     const newPayment = await this.paymentRepository.create({
         type_of_service: type_of_service,
+        amount_paid: amount_paid,
         user: user
     })
     await this.paymentRepository.save(newPayment)
