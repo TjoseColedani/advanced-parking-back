@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    rawBody: true
+    rawBody: true,
   });
   app.enableCors();
   app.use(morgan('dev'));
@@ -18,6 +18,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
-  await app.listen(3000);
+  await app.listen(3001);
 }
 bootstrap();
