@@ -1,3 +1,4 @@
+import { PickType } from '@nestjs/mapped-types';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
@@ -6,6 +7,7 @@ import {
   Matches,
   Length,
   IsNumber,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -81,9 +83,12 @@ export class CreateUserDto {
   @IsNumber()
   phone: number;
 }
-export class CreateUserAuthDto {
-  name: string;
-  email: string;
+export class CreateUserAuthDto extends PickType(CreateUserDto, [
+  'name',
+  'email',
+]) {
+  @IsString()
+  @IsOptional()
   image: string;
 }
 

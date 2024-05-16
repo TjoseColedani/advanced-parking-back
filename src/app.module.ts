@@ -14,6 +14,7 @@ import { AppointmentModule } from './appointments/appointments.module';
 import { mailerConfig } from './config/mailer.config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailSenderModule } from './email-sender/email-sender.module';
+import { FileUploadModule } from './file-upload/file-upload.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { EmailSenderModule } from './email-sender/email-sender.module';
     SlotModule,
     AppointmentModule,
     EmailSenderModule,
+    FileUploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],
