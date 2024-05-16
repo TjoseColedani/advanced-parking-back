@@ -37,7 +37,6 @@ export class User {
   password: string;
 
   @Column({ type: 'bigint', default: 12345678 })
-  @Column({ type: 'bigint' })
   @ApiProperty({
     description: 'Número de teléfono del usuario',
     example: 1234567890,
@@ -52,7 +51,7 @@ export class User {
   })
   role: Role;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: 'active' })
   @ApiProperty({
     description: 'Estado del usuario, puede ser "active" o "deleted"',
     example: 'active',
