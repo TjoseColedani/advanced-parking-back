@@ -85,6 +85,6 @@ export class Appointment {
   @JoinColumn({ name: 'parking_lot_id' })
   parking_lot: ParkingLot;
 
-  @OneToOne(() => Payment, payment => payment.appointment)
+  @OneToOne(() => Payment, (payment) => payment.appointment)
   payment: Payment;
 }
