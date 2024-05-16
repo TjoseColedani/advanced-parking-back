@@ -49,10 +49,10 @@ export class AuthService {
 
       const createdUser = await this.usersRepository.createUserAuth(newUser);
       if (!createdUser) throw new BadRequestException('Error creating user');
-      await this.emailSenderRepository.sendRegisterEmail(
-        newUser.name,
-        newUser.email,
-      );
+      await this.emailSenderRepository.sendRegisterEmail({
+        name: newUser.name,
+        email: newUser.email,
+      });
       return this.signInAuth(createdUser.email);
     }
   }

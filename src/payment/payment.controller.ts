@@ -9,7 +9,9 @@ import {
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from 'src/dtos/payment.dto';
 import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('payment')
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}

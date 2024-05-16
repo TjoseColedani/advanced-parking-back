@@ -17,7 +17,7 @@ export class UserRepository {
   ) {}
   async getAllUsers(): Promise<User[]> {
     const users = await this.userRepository.find();
-    if (!users.length) throw new BadRequestException('Error to get users');
+    if (!users.length) throw new BadRequestException('Users not found');
     return users;
   }
   async getUserById(id: string): Promise<User> {
