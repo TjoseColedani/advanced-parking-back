@@ -6,7 +6,9 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto, UpdateUserDto } from 'src/dtos/user.dto';
 import { User } from 'src/entities/user.entity';
+import { Role } from 'src/enums/roles.enum';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserRepository {
@@ -76,5 +78,23 @@ export class UserRepository {
     if (!foundUser) throw new NotFoundException('User not found');
     await this.userRepository.update(id, { status: 'deleted' });
     return 'User with ID ' + id + ' deleted successfully';
+  }
+  async createAdmin(): Promise<User> {
+    const hashedPassword = await bcrypt.hash('A.p.2024', 10);
+
+    const newUser = new User();
+    newUser.name = 'Usuario Administrador';
+    newUser.email = 'advancedparking.2024@gmail.com';
+    newUser.password = hashedPassword;
+    newUser.phone = 1112345678;
+    newUser.status = 'active';
+    newUser.role = Role.Admin;
+    await this.userRepository.save(newUser);
+    const createdUser = await this.userRepository.findOne({
+      where: { email: newUser.email },
+      select: ['id', 'name', 'email', 'phone', 'role'],
+    });
+
+    return createdUser;
   }
 }

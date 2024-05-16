@@ -7,6 +7,7 @@ import {
   Put,
   ParseUUIDPipe,
   UseGuards,
+  Post,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from 'src/dtos/user.dto';
@@ -46,5 +47,9 @@ export class UserController {
   @UseGuards(AuthGuard, RolesGuard)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.remove(id);
+  }
+  @Post('seeder')
+  createAdmin() {
+    return this.userService.createAdmin();
   }
 }

@@ -20,4 +20,7 @@ export class UserService {
   async remove(id: string) {
     return await this.userRepository.deleteUser(id);
   }
+  async createAdmin() {
+    return await this.userRepository.createAdmin();
+  }
 }
