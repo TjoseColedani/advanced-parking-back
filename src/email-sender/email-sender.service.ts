@@ -20,4 +20,7 @@ export class EmailSenderService {
       emailSenderDto,
     );
   }
+  scheduleReminderEmail(emailSenderDto: EmailSenderDto) {
+    return this.emailSenderRepository.scheduleReminderEmail(emailSenderDto);
+  }
 }
