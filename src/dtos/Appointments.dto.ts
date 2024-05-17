@@ -6,7 +6,6 @@ import {
   IsBoolean,
   IsOptional,
   IsEnum,
-  IsNumber,
 } from 'class-validator';
 
 export class CreateAppointmentDto {
@@ -55,8 +54,8 @@ export class CreateAppointmentDto {
     example: 2,
   })
   @IsNotEmpty()
-  @IsNumber()
-  duration: number;
+  @IsString()
+  duration: string;
 
   /**
    * Indica si el coche está estacionado
