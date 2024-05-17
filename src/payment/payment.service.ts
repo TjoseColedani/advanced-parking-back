@@ -40,30 +40,10 @@ export class PaymentService {
             },
             quantity: 1,
           },
-          {
-            price_data: {
-              product_data: {
-                name: type_of_service,
-              },
-              currency: 'usd',
-              unit_amount: unit_amount * 100,
-            },
-            quantity: 1,
-          },
-          {
-            price_data: {
-              product_data: {
-                name: type_of_service,
-              },
-              currency: 'usd',
-              unit_amount: unit_amount * 100,
-            },
-            quantity: 1,
-          },
         ],
         mode: 'payment',
-        success_url: `http://localhost:3000/success/${appointment_id}`, // <-- payment successful - front
-        cancel_url: 'http://localhost:3000/cancel', // <-- couldn't process payment/cancellation - front
+        success_url: `https://advanced-parking.vercel.app/success/${appointment_id}`, // <-- payment successful - front
+        cancel_url: 'https://advanced-parking.vercel.app/cancel', // <-- couldn't process payment/cancellation - front
       });
       return { url: session.url, session: session };
     } catch (error) {
