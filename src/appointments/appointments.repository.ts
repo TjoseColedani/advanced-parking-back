@@ -112,6 +112,7 @@ export class AppointmentsRepository {
     newAppointment.duration = appointment.duration;
     newAppointment.slot = slot;
     newAppointment.parking_lot = parkingLot;
+    newAppointment.status = 'active';
 
     const createdAppointment =
       await this.appointmentsRepository.save(newAppointment);

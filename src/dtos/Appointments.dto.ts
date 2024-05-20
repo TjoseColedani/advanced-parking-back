@@ -50,8 +50,8 @@ export class CreateAppointmentDto {
    * @example '2h'
    */
   @ApiProperty({
-    description: 'Duración de la reserva del estacionamiento, por ejemplo "2h"',
-    example: '2h',
+    description: 'Duración de la reserva del estacionamiento, por ejemplo 2h',
+    example: 2,
   })
   @IsNotEmpty()
   @IsString()
