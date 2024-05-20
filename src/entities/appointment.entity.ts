@@ -73,6 +73,12 @@ export class Appointment {
   })
   user: User;
 
+  @Column({ type: 'varchar', nullable: true })
+  slot_number: string;
+
+  @Column({ type: 'int' })
+  total: number;
+
   @ManyToOne(() => Slot, (slot) => slot.appointment)
   @JoinColumn({ name: 'slot_id' })
   @ApiProperty({

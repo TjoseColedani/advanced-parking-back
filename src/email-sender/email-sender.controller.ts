@@ -27,4 +27,9 @@ export class EmailSenderController {
   ) {
     return this.emailSenderService.sendReservationReminderEmail(emailSenderDto);
   }
+
+  @Post('schedule-reminder')
+  scheduleReminderEmail(@Body() emailSenderDto: EmailSenderDto) {
+    return this.emailSenderService.scheduleReminderEmail(emailSenderDto);
+  }
 }
