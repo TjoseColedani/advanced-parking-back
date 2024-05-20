@@ -11,7 +11,7 @@ export class EmailSenderRepository {
     await this.emailSenderRepository.sendMail({
       to: registerSenderDto.email,
       from: 'advancedparking.2024@gmail.com',
-      subject: 'Testing Email Sender',
+      subject: 'Register Confirmation',
       text: `Hello ${registerSenderDto.name}, thank you for registering with us! Your account is now active.
       Thank you for choosing us!
       Sincerely,

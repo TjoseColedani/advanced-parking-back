@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { FileUploadRepository } from './file-upload.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -19,6 +23,8 @@ export class FileUploadService {
     if (!userFound) throw new NotFoundException('User not found');
 
     const { secure_url } = await this.fileUploadRepository.uploadImage(file);
+    if (!secure_url)
+      throw new BadRequestException('Error uploading profile image');
 
     await this.usersRepository.update(userId, {
       image: secure_url,

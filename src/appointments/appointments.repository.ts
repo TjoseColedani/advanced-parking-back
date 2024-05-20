@@ -9,6 +9,7 @@ import {
   CreateAppointmentDto,
   UpdateAppointmentDto,
 } from 'src/dtos/Appointments.dto';
+import { EmailSenderRepository } from 'src/email-sender/email-sender.repository';
 import { Appointment } from 'src/entities/appointment.entity';
 import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { Slot } from 'src/entities/slot.entity';
@@ -30,6 +31,8 @@ export class AppointmentsRepository {
 
     @InjectRepository(ParkingLot)
     private parkingLotRepository: Repository<ParkingLot>,
+
+    private readonly emailSenderRepository: EmailSenderRepository,
   ) {}
   async getAppointments(page?: number, limit?: number): Promise<Appointment[]> {
     if (page !== undefined && limit !== undefined) {
@@ -113,6 +116,8 @@ export class AppointmentsRepository {
     newAppointment.slot = slot;
     newAppointment.parking_lot = parkingLot;
     newAppointment.status = 'active';
+    newAppointment.total = appointment.total;
+    newAppointment.slot_number = appointment.slot_number;
 
     const createdAppointment =
       await this.appointmentsRepository.save(newAppointment);
@@ -122,6 +127,15 @@ export class AppointmentsRepository {
     try {
       await this.slotRepository.update(slot.id, {
         slot_status: SlotStatus.Reserved,
+      });
+      await this.emailSenderRepository.sendReservationConfirmationEmail({
+        name: user.name,
+        email: user.email,
+        date: createdAppointment.date,
+        time: createdAppointment.time,
+        slot: createdAppointment.slot_number,
+        parkingLot: createdAppointment.parking_lot.name,
+        location: createdAppointment.parking_lot.location,
       });
     } catch {
       throw new BadRequestException('error updating slot');

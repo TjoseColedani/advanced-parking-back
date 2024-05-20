@@ -42,6 +42,7 @@ export class FileUploadController {
     )
     file: Express.Multer.File,
   ) {
+    console.log(file);
     return await this.fileUploadService.uploadProfileImage(id, file);
   }
   @ApiBearerAuth()
