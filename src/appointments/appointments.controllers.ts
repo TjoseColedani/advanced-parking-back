@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import {
@@ -15,6 +16,10 @@ import {
   UpdateAppointmentDto,
 } from 'src/dtos/Appointments.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { RolesGuard } from 'src/guards/roles.guards';
+import { Roles } from 'src/decorators/roles.decorators';
+import { Role } from 'src/enums/roles.enum';
 
 @ApiTags('appointments')
 @Controller('appointments')
@@ -36,6 +41,8 @@ export class AppointmentsController {
   }
 
   @Put(':id')
+  @Roles(Role.Porter)
+  @UseGuards(AuthGuard, RolesGuard)
   async updateAppointmentStatus(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() newStatus: UpdateAppointmentDto,

@@ -7,6 +7,7 @@ import { User } from 'src/entities/user.entity';
 import { AppointmentsController } from './appointments.controllers';
 import { AppointmentsService } from './appointments.service';
 import { AppointmentsRepository } from './appointments.repository';
+import { EmailSenderRepository } from 'src/email-sender/email-sender.repository';
 
 @Module({
   imports: [
@@ -16,6 +17,10 @@ import { AppointmentsRepository } from './appointments.repository';
     TypeOrmModule.forFeature([ParkingLot]),
   ],
   controllers: [AppointmentsController],
-  providers: [AppointmentsService, AppointmentsRepository],
+  providers: [
+    AppointmentsService,
+    AppointmentsRepository,
+    EmailSenderRepository,
+  ],
 })
 export class AppointmentModule {}
