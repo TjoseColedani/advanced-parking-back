@@ -58,6 +58,13 @@ export class CreateAppointmentDto {
   @IsString()
   duration: string;
 
+  @IsOptional()
+  @IsString()
+  slot_number: string;
+
+  @IsNumber()
+  total: number;
+
   /**
    * Indica si el coche está estacionado
    * @example true

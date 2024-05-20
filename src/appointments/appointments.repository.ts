@@ -113,6 +113,8 @@ export class AppointmentsRepository {
     newAppointment.slot = slot;
     newAppointment.parking_lot = parkingLot;
     newAppointment.status = 'active';
+    newAppointment.total = appointment.total;
+    newAppointment.slot_number = appointment.slot_number;
 
     const createdAppointment =
       await this.appointmentsRepository.save(newAppointment);
