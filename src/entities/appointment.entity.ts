@@ -76,7 +76,7 @@ export class Appointment {
   @Column({ type: 'varchar', nullable: true })
   slot_number: string;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'float' })
   total: number;
 
   @ManyToOne(() => Slot, (slot) => slot.appointment)
