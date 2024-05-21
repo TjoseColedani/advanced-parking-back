@@ -35,7 +35,7 @@ export class SlotController {
   @Put(':id')
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
-  async updateSlot(slot: UpdateSlotDto, @Param('id') slotId: string) {
+  async updateSlot(@Body() slot: UpdateSlotDto, @Param('id') slotId: string) {
     return await this.slotService.updateSlot(slot, slotId);
   }
 }

@@ -36,19 +36,21 @@ export class SlotRepository {
   }
 
   async updateSlot(slot: UpdateSlotDto, slotId: string) {
+    console.log(slot);
     const slotFound = await this.slotRepository.findOne({
       where: { id: slotId },
     });
     if (!slotFound) {
       throw new NotFoundException('Slot not found');
     }
-    const updatedSlot = await this.slotRepository.update(slotFound.id, {
-      slot_status: slot.slot_status,
-    });
-    if (!updatedSlot) {
+    try {
+      await this.slotRepository.update(slotId, {
+        slot_status: slot.slot_status,
+      });
+      return 'Slot updated successfully';
+    } catch {
       throw new BadRequestException('error while updating slot');
     }
-    return 'Slot updated successfully';
   }
 
   async addSlot(slot: CreateSlotDto) {
