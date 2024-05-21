@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Slot } from 'src/entities/slot.entity';
 import { Repository } from 'typeorm';
-import * as data from '../slot-data.json';
 import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { SlotStatus } from 'src/enums/slot-status.enum';
 
@@ -15,22 +14,19 @@ export class SlotRepository {
   ) {}
 
   async slotSeeder() {
-    const parkingLot = await this.parkingLotRepository.find();
+    const parkingLots = await this.parkingLotRepository.find();
 
     await Promise.all(
-      data?.map(async (item) => {
-        const parking = parkingLot.find(
-          (lot) => lot.id === item.parking_lot_id,
-        );
-
-        const slot = new Slot();
-        slot.slot_status = item.slot_status as SlotStatus;
-        slot.parking_lot = parking;
-
-        await this.slotRepository.save(slot);
-      }),
-    );
-
+      parkingLots?.map(async(parkingLot) => {
+        for(let i = 0; i < 20; i++) {
+          const slot = new Slot();
+          slot.slot_status = "available" as SlotStatus;
+          slot.slot_number = (i + 1);
+          slot.parking_lot = parkingLot;
+          await this.slotRepository.save(slot);
+        }
+      })
+    )
     return 'Products added successfully';
   }
 }
