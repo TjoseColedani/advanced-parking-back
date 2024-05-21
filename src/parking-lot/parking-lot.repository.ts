@@ -77,4 +77,18 @@ export class ParkingLotRepository {
       throw new BadRequestException('Parking lot created');
     return createdParkingLot;
   }
+  async deleteParkingLot(parkingLotId: string) {
+    // const parkingLot = await this.parkingLotRepository.findOne({
+    //   where: { id: parkingLotId, status: 'active' },
+    // });
+    // if (!parkingLot) throw new NotFoundException('Parking lot not found');
+    // const deletedParkingLot = await this.parkingLotRepository.update(
+    //   parkingLotId,
+    //   { status: 'deleted' },
+    // );
+    // if (!deletedParkingLot)
+    //   throw new BadRequestException('Error to delete parking');
+
+    return `Parking with ID: ${parkingLotId} lot deleted successfully`;
+  }
 }
