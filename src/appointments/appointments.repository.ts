@@ -73,6 +73,8 @@ export class AppointmentsRepository {
     const myAppointment = await this.appointmentsRepository.findOne({
       where: {
         license_plate: appointment.license_plate,
+        date: appointment.date,
+        time: appointment.time,
       },
     });
     if (myAppointment) {
