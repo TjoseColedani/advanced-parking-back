@@ -27,6 +27,8 @@ export class ParkingLotRepository {
             name: item.name,
             location: item.location,
             slots_stock: item.slots_stock,
+            lat: item.lat,
+            lng: item.lng,
           })
           .execute();
       }),
