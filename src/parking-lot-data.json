@@ -1,127 +1,177 @@
 [
   {
-    "name": "Estacionamiento Santa Fe",
-    "slots_stock": 90,
-    "location": "Avenida Cordoba 2345"
+    "name": "Best Park",
+    "slots_stock": 20,
+    "location": "Av. Monroe 2635",
+    "lat": 34.559524,
+    "lng": 58.462132
   },
   {
-    "name": "Estacionamiento Rosario",
-    "slots_stock": 60,
-    "location": "Calle San Martin 5678"
+    "name": "Concepcion",
+    "slots_stock": 20,
+    "location": "Zapiola 151",
+    "lat": 34.587042,
+    "lng": 58.428806
   },
   {
-    "name": "Estacionamiento Central",
-    "slots_stock": 50,
-    "location": "Calle Belgrano 789"
+    "name": "Costa Rica",
+    "slots_stock": 20,
+    "location": "Costa Rica 4862",
+    "lat": 34.578567,
+    "lng": 58.443153
   },
   {
-    "name": "Estacionamiento del Sol",
-    "slots_stock": 120,
-    "location": "Avenida Corrientes 2345"
+    "name": "Guayaquil",
+    "slots_stock": 20,
+    "location": "Misiones 175",
+    "lat": 34.611737,
+    "lng": 58.404492
   },
   {
-    "name": "Estacionamiento Plaza",
-    "slots_stock": 200,
-    "location": "Calle Florida 678"
+    "name": "El Griego",
+    "slots_stock": 20,
+    "location": "Matheu 191",
+    "lat": 34.612058,
+    "lng": 58.400489
   },
   {
-    "name": "Estacionamiento Aurora",
-    "slots_stock": 80,
-    "location": "Avenida Rivadavia 3456"
+    "name": "Larrea",
+    "slots_stock": 20,
+    "location": "Larrea 235",
+    "lat": 34.607501,
+    "lng": 58.401922
   },
   {
-    "name": "Estacionamiento Victoria",
-    "slots_stock": 150,
-    "location": "Calle Sarmiento 901"
+    "name": "Federico Cabo",
+    "slots_stock": 20,
+    "location": "Larrea 285",
+    "lat": 34.606458,
+    "lng": 58.402003
   },
   {
-    "name": "Estacionamiento Buenos Aires",
-    "slots_stock": 100,
-    "location": "Avenida Santa Fe 1234"
+    "name": "Baires",
+    "slots_stock": 20,
+    "location": "Bartolome Mitre 2174",
+    "lat": 34.608290,
+    "lng": 58.397386
   },
   {
-    "name": "Estacionamiento Mendoza",
-    "slots_stock": 80,
-    "location": "Calle Entre Rios 5678"
+    "name": "Provincias",
+    "slots_stock": 20,
+    "location": "Bartolome Mitre 2060",
+    "lat": 34.608228,
+    "lng": 58.395771
   },
   {
-    "name": "Estacionamiento Tucumán",
-    "slots_stock": 70,
-    "location": "Avenida Mayo 901"
+    "name": "Sarmiento",
+    "slots_stock": 20,
+    "location": "Sarmiento 2150",
+    "lat": 34.605186,
+    "lng": 58.395392
   },
   {
-    "name": "Estacionamiento Cordoba",
-    "slots_stock": 110,
-    "location": "Calle Salta 3456"
+    "name": "Santa Rosa",
+    "slots_stock": 20,
+    "location": "Adolfo Alsina 2062",
+    "lat": 34.611768,
+    "lng": 58.395618
   },
   {
-    "name": "Estacionamiento La Plata",
-    "slots_stock": 150,
-    "location": "Avenida Rivadavia 5678"
+    "name": "Los Hermanos",
+    "slots_stock": 20,
+    "location": "Avenida Rivadavia 5678",
+    "lat": 34.611131,
+    "lng": 58.394699
   },
   {
-    "name": "Estacionamiento Neuquén",
-    "slots_stock": 90,
-    "location": "Calle San Juan 1234"
+    "name": "Once",
+    "slots_stock": 20,
+    "location": "Boulogne Sur Mer 342",
+    "lat": 34.606151,
+    "lng": 58.407245
   },
   {
-    "name": "Estacionamiento Salta",
-    "slots_stock": 120,
-    "location": "Avenida Belgrano 678"
+    "name": "Eleven Park",
+    "slots_stock": 20,
+    "location": "Azcuenaga 376",
+    "lat": 34.605109,
+    "lng": 58.40083
   },
   {
-    "name": "Estacionamiento Jujuy",
-    "slots_stock": 60,
-    "location": "Calle Santiago del Estero 901"
+    "name": "Gran Abasto",
+    "slots_stock": 20,
+    "location": "Gallo 479",
+    "lat": 34.603613,
+    "lng": 58.412993
   },
   {
-    "name": "Estacionamiento Chaco",
-    "slots_stock": 100,
-    "location": "Avenida Pellegrini 2345"
+    "name": "Estacionamiento Compañia Argentina de Negocios",
+    "slots_stock": 20,
+    "location": "Marcelo Torcuato de Alvear 1566",
+    "lat": 34.597168,
+    "lng": 58.389451
   },
   {
-    "name": "Estacionamiento Santa Cruz",
-    "slots_stock": 80,
-    "location": "Calle 25 de Mayo 5678"
+    "name": "Hugo",
+    "slots_stock": 20,
+    "location": "Adolfo Alsina 2926",
+    "lat": 34.612485,
+    "lng": 58.407512
   },
   {
-    "name": "Estacionamiento Tierra del Fuego",
-    "slots_stock": 70,
-    "location": "Avenida San Martin 901"
+    "name": "Potigian",
+    "slots_stock": 20,
+    "location": "Tte. Gral Juan Domingo Peron 2367",
+    "lat": 34.607512,
+    "lng": 58.401890
   },
   {
-    "name": "Estacionamiento Formosa",
-    "slots_stock": 110,
-    "location": "Calle Alberdi 3456"
+    "name": "Fan-Tor",
+    "slots_stock": 20,
+    "location": "Av. Belgrano 2970",
+    "lat": 34.614965,
+    "lng": 58.407974
   },
   {
-    "name": "Estacionamiento Catamarca",
-    "slots_stock": 150,
-    "location": "Avenida 9 de Julio 5678"
+    "name": "San Agustin",
+    "slots_stock": 20,
+    "location": "Azcuenaga 318",
+    "lat": 34.605902,
+    "lng": 58.400739
   },
   {
-    "name": "Estacionamiento Santa Rosa",
-    "slots_stock": 90,
-    "location": "Calle Mitre 1234"
+    "name": "Capital",
+    "slots_stock": 20,
+    "location": "Lavalle 2142",
+    "lat": 34.603239,
+    "lng": 58.397528
   },
   {
-    "name": "Estacionamiento San Juan",
-    "slots_stock": 120,
-    "location": "Avenida Independencia 678"
+    "name": "La Piedad",
+    "slots_stock": 20,
+    "location": "Cerrito 86",
+    "lat": 34.607616,
+    "lng": 58.382087
   },
   {
-    "name": "Estacionamiento La Rioja",
-    "slots_stock": 60,
-    "location": "Calle San Luis 901"
+    "name": "Laxe",
+    "slots_stock": 20,
+    "location": "Tte. Gral, Juan Domingo Peron 1351",
+    "lat": 34.606397,
+    "lng": 58.385802
   },
   {
-    "name": "Estacionamiento Santiago del Estero",
-    "slots_stock": 100,
-    "location": "Avenida Avellaneda 2345"
+    "name": "Suipacha",
+    "slots_stock": 20,
+    "location": "Suipacha 162",
+    "lat": 34.606403,
+    "lng": 58.379284
   },
   {
-    "name": "Estacionamiento Entre Rios",
-    "slots_stock": 80,
-    "location": "Calle 9 de Julio 5678"
+    "name": "Odeon",
+    "slots_stock": 20,
+    "location": "Av. Corrientes 770",
+    "lat": 34.603559,
+    "lng": 58.377584
   }
 ]

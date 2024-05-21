@@ -1,8 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { Repository } from 'typeorm';
 import * as data from '../parking-lot-data.json';
+import { CreateParkingLotDto } from 'src/dtos/ParkingLot.dto';
 
 @Injectable()
 export class ParkingLotRepository {
@@ -22,6 +27,8 @@ export class ParkingLotRepository {
             name: item.name,
             location: item.location,
             slots_stock: item.slots_stock,
+            lat: item.lat,
+            lng: item.lng,
           })
           .execute();
       }),
@@ -54,5 +61,20 @@ export class ParkingLotRepository {
     }
 
     return parkingLotById;
+  }
+
+  async createParkingLot(parkingLot: CreateParkingLotDto) {
+    const newParkingLot = new ParkingLot();
+    newParkingLot.name = parkingLot.name;
+    newParkingLot.location = parkingLot.location;
+    newParkingLot.slots_stock = parkingLot.slot_stock;
+    newParkingLot.lat = parkingLot.lat;
+    newParkingLot.lng = parkingLot.lng;
+
+    const createdParkingLot =
+      await this.parkingLotRepository.save(newParkingLot);
+    if (!createdParkingLot)
+      throw new BadRequestException('Parking lot created');
+    return createdParkingLot;
   }
 }

@@ -81,10 +81,16 @@ export class UserRepository {
   }
   async createAdmin(): Promise<User> {
     const hashedPassword = await bcrypt.hash('A.p.2024', 10);
+    const emailAdmin = 'advancedparking.2024@gmail.com';
+
+    const oldUserAdmin = await this.userRepository.findOne({
+      where: { email: emailAdmin },
+    });
+    if (oldUserAdmin) throw new BadRequestException('User already exists');
 
     const newUser = new User();
     newUser.name = 'Usuario Administrador';
-    newUser.email = 'advancedparking.2024@gmail.com';
+    newUser.email = emailAdmin;
     newUser.password = hashedPassword;
     newUser.phone = 1112345678;
     newUser.status = 'active';
