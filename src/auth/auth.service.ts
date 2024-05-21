@@ -90,23 +90,6 @@ export class AuthService {
 
     if (!user) throw new UnauthorizedException('invalid credentials');
 
-    // if (user.email === "advancedparking.2024@gmail.com") {
-
-    //   const adminPayload = {
-    //     id: user.id,
-    //     email: user.email,
-    //     role: Role.Admin
-    //   };
-    //   const token = this.jwtService.sign(adminPayload);
-
-    //   const { password: userpassword, ...userData } = user;
-    //   return {
-    //     message: 'Logged in successfully',
-    //     token,
-    //     userData,
-    //   };
-    // }
-
     const userPayload = {
       id: user.id,
       email: user.email,

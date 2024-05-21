@@ -184,7 +184,21 @@ export class AppointmentsRepository {
     if (!slot) {
       throw new BadRequestException('Error to update');
     }
-    await this.appointmentsRepository.update(id, { status: 'deleted' });
+    const appointmentDeleted = await this.appointmentsRepository.update(id, {
+      status: 'deleted',
+    });
+    if (!appointmentDeleted)
+      throw new BadRequestException('Error to delete appointment');
+    const parking = await this.parkingLotRepository.findOne({
+      where: { id: appointment.parking_lot.id },
+    });
+    if (!parking) throw new NotFoundException('Parking not found');
+    const parkingUpdated = await this.parkingLotRepository.update(
+      appointment.parking_lot.id,
+      { slots_stock: parking.slots_stock + 1 },
+    );
+    if (!parkingUpdated)
+      throw new BadRequestException('Error to update parking');
     return 'appointment cancelled successfully';
   }
   async getAppointmentById(@Param('id') id: string) {
