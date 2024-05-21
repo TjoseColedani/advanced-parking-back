@@ -35,6 +35,12 @@ export class ParkingLot {
   })
   location: string;
 
+  @Column('decimal', { precision: 10, scale: 6 })
+  lat: number;
+
+  @Column('decimal', { precision: 10, scale: 6 })
+  lng: number;
+
   @OneToMany(() => Slot, (slot) => slot.parking_lot)
   @ApiProperty({
     description:
