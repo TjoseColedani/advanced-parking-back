@@ -31,6 +31,13 @@ export class Slot {
   })
   slot_status: SlotStatus;
 
+  @Column({ type: 'int' })
+  @ApiProperty({
+    description: 'Número del espacio de estacionamiento',
+    example: 1,
+  })
+  slot_number: number;
+
   @OneToMany(() => Appointment, (appointment) => appointment.slot)
   @ApiProperty({
     description:

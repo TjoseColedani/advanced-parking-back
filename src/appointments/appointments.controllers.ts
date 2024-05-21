@@ -40,7 +40,7 @@ export class AppointmentsController {
     return await this.appointmentsService.createAppointments(appointment);
   }
 
-  @Put(':id')
+  @Put('update-status/:id')
   @Roles(Role.Porter)
   @UseGuards(AuthGuard, RolesGuard)
   async updateAppointmentStatus(
