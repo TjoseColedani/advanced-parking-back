@@ -17,10 +17,10 @@ const config = {
   database: DB_NAME,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
-  synchronize: false,
+  synchronize: true,
   autoLoadEntities: true,
   logging: true,
-  dropSchema: true,
+  dropSchema: false,
   ssl: {
     rejectUnauthorized: false,
   },
