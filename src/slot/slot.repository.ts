@@ -42,12 +42,13 @@ export class SlotRepository {
     if (!slotFound) {
       throw new NotFoundException('Slot not found');
     }
-    try {
-      await this.slotRepository.update(slotFound.id, slot);
-      return 'Slot updated successfully';
-    } catch {
+    const updatedSlot = await this.slotRepository.update(slotFound.id, {
+      slot_status: slot.slot_status,
+    });
+    if (!updatedSlot) {
       throw new BadRequestException('error while updating slot');
     }
+    return 'Slot updated successfully';
   }
 
   async addSlot(slot: CreateSlotDto) {
