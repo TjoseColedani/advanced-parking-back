@@ -22,7 +22,7 @@ export class User {
   })
   name: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', unique: true })
   @ApiProperty({
     description: 'Correo electrónico del usuario',
     example: 'carlosgarcia@example.com',
