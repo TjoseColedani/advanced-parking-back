@@ -22,16 +22,16 @@ export class SlotRepository {
     const parkingLots = await this.parkingLotRepository.find();
 
     await Promise.all(
-      parkingLots?.map(async(parkingLot) => {
-        for(let i = 0; i < 20; i++) {
+      parkingLots?.map(async (parkingLot) => {
+        for (let i = 0; i < 20; i++) {
           const slot = new Slot();
-          slot.slot_status = "available" as SlotStatus;
-          slot.slot_number = (i + 1);
+          slot.slot_status = 'available' as SlotStatus;
+          slot.slot_number = i + 1;
           slot.parking_lot = parkingLot;
           await this.slotRepository.save(slot);
         }
-      })
-    )
+      }),
+    );
     return 'Products added successfully';
   }
 
@@ -70,6 +70,9 @@ export class SlotRepository {
 
     const createdSlot = await this.slotRepository.save(newSlot);
     if (!createdSlot) throw new BadRequestException('Error saving slot');
+    await this.parkingLotRepository.update(parkingLot.id, {
+      slots_stock: parkingLot.slots_stock + 1,
+    });
     return { message: 'Slot created', createdSlot };
   }
 }
