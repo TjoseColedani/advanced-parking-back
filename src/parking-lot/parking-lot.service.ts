@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ParkingLotRepository } from './parking-lot.repository';
+import { CreateParkingLotDto } from 'src/dtos/ParkingLot.dto';
 
 @Injectable()
 export class ParkingLotService {
@@ -15,5 +16,9 @@ export class ParkingLotService {
 
   getParkingLotById(id: string) {
     return this.parkingLotRepository.getParkingLotById(id);
+  }
+
+  async createParkingLot(parkingLot: CreateParkingLotDto) {
+    return await this.parkingLotRepository.createParkingLot(parkingLot);
   }
 }
