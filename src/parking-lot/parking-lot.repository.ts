@@ -53,7 +53,7 @@ export class ParkingLotRepository {
   async getParkingLotById(id: string) {
     const parkingLotById = await this.parkingLotRepository.findOne({
       where: { id },
-      relations: { slot: true },
+      relations: { slot: true, appointments: true },
     });
 
     if (!parkingLotById) {
