@@ -5,10 +5,11 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Slot } from 'src/entities/slot.entity';
-import { Repository } from 'typeorm';
+import { LessThan, MoreThan, Repository } from 'typeorm';
 import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { SlotStatus } from 'src/enums/slot-status.enum';
 import { CreateSlotDto, UpdateSlotDto } from 'src/dtos/Slot.dto';
+import { Appointment } from 'src/entities/appointment.entity';
 
 @Injectable()
 export class SlotRepository {
@@ -16,8 +17,17 @@ export class SlotRepository {
     @InjectRepository(Slot) private readonly slotRepository: Repository<Slot>,
     @InjectRepository(ParkingLot)
     private readonly parkingLotRepository: Repository<ParkingLot>,
+    @InjectRepository(Appointment)
+    private readonly appointmentRepository: Repository<Appointment>,
   ) {}
 
+  private convertToDateTime(date: string, time: string): Date {
+    const [day, month, year] = date
+      .split('/')
+      .map((part) => parseInt(part, 10));
+    const [hours, minutes] = time.split(':').map((part) => parseInt(part, 10));
+    return new Date(year, month - 1, day, hours, minutes);
+  }
   async slotSeeder() {
     const parkingLots = await this.parkingLotRepository.find();
 
@@ -33,6 +43,51 @@ export class SlotRepository {
       }),
     );
     return 'Products added successfully';
+  }
+
+  async getAvailableSlots(
+    date: string,
+    time: string,
+    duration: string,
+    parkingLotId: string,
+  ) {
+    if (!date || !time || !duration || !parkingLotId)
+      throw new BadRequestException('Missing information');
+
+    const startTime = this.convertToDateTime(date, time);
+    const durationInMinutes = parseInt(duration) * 60;
+    const endTime = new Date(startTime.getTime() + durationInMinutes * 60000);
+
+    const parking = await this.parkingLotRepository.findOne({
+      where: { id: parkingLotId },
+    });
+    if (!parking) throw new NotFoundException('Parking lot not found');
+
+    const allSlots = await this.slotRepository.find({
+      where: {
+        parking_lot: parking,
+      },
+    });
+    if (!allSlots) throw new NotFoundException('Slots not found');
+
+    const reservations = await this.appointmentRepository.find({
+      where: {
+        start_time: LessThan(endTime),
+        end_time: MoreThan(startTime),
+        parking_lot: parking,
+      },
+      relations: ['slot'],
+    });
+    // if (!reservations) throw new NotFoundException('Reservations not found');
+
+    const updatedSlots = allSlots.map((slot) => {
+      if (reservations.some((appointment) => appointment.slot.id === slot.id)) {
+        slot.slot_status = SlotStatus.Unavailable;
+      } else {
+        slot.slot_status = SlotStatus.Available;
+      }
+    });
+    return updatedSlots;
   }
 
   async updateSlot(slot: UpdateSlotDto, slotId: string) {

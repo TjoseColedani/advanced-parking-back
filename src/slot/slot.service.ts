@@ -16,4 +16,18 @@ export class SlotService {
   async updateSlot(slot: UpdateSlotDto, slotId: string) {
     return await this.slotRepository.updateSlot(slot, slotId);
   }
+
+  async getAvailableSlots(
+    date: string,
+    time: string,
+    duration: string,
+    parkingLotId: string,
+  ) {
+    throw await this.slotRepository.getAvailableSlots(
+      date,
+      time,
+      duration,
+      parkingLotId,
+    );
+  }
 }
