@@ -74,9 +74,17 @@ export class Appointment {
   user: User;
 
   @Column({ type: 'varchar', nullable: true })
+  @ApiProperty({
+    description: 'Número del espacio de estacionamiento',
+    example: 'A12',
+  })
   slot_number: string;
 
   @Column({ type: 'float' })
+  @ApiProperty({
+    description: 'Total a pagar por la cita',
+    example: 20.0,
+  })
   total: number;
 
   @ManyToOne(() => Slot, (slot) => slot.appointment)
@@ -89,8 +97,30 @@ export class Appointment {
 
   @ManyToOne(() => ParkingLot, (parkingLot) => parkingLot.appointments)
   @JoinColumn({ name: 'parking_lot_id' })
+  @ApiProperty({
+    description: 'Estacionamiento asociado a la cita',
+    type: () => ParkingLot,
+  })
   parking_lot: ParkingLot;
 
   @OneToOne(() => Payment, (payment) => payment.appointment)
+  @ApiProperty({
+    description: 'Pago asociado a la cita',
+    type: () => Payment,
+  })
   payment: Payment;
+
+  @Column({ type: 'timestamp' })
+  @ApiProperty({
+    description: 'Fecha y hora de inicio de la cita',
+    example: '2024-05-15T14:00:00Z',
+  })
+  start_time: Date;
+
+  @Column({ type: 'timestamp' })
+  @ApiProperty({
+    description: 'Fecha y hora de finalización de la cita',
+    example: '2024-05-15T16:00:00Z',
+  })
+  end_time: Date;
 }

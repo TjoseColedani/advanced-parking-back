@@ -9,6 +9,7 @@ import {
   Put,
   Query,
   UseGuards,
+  Delete,
 } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import {
@@ -58,5 +59,12 @@ export class AppointmentsController {
   @Get(':id')
   async getAppointmentById(@Param('id', ParseUUIDPipe) id: string) {
     return this.appointmentsService.getAppointmentById(id);
+  }
+
+  @Delete(':id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  async deleteAppointmentById(@Param('id') id: string) {
+    return await this.appointmentsService.deleteAppointments(id);
   }
 }
