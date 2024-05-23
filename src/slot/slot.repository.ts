@@ -73,7 +73,6 @@ export class SlotRepository {
       },
     });
     if (!allSlots) throw new NotFoundException('Slots not found');
-    console.log('allSlots', allSlots);
 
     const reservations = await this.appointmentRepository.find({
       where: {
@@ -83,7 +82,6 @@ export class SlotRepository {
       },
       relations: ['slot'],
     });
-    console.log('reservations', reservations);
 
     // if (!reservations) throw new NotFoundException('Reservations not found');
 
