@@ -7,7 +7,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { Repository } from 'typeorm';
 import * as data from '../parking-lot-data.json';
-import { CreateParkingLotDto } from 'src/dtos/ParkingLot.dto';
+import {
+  CreateParkingLotDto,
+  UpdateParkingLotDto,
+} from 'src/dtos/ParkingLot.dto';
 
 @Injectable()
 export class ParkingLotRepository {
@@ -53,7 +56,7 @@ export class ParkingLotRepository {
   async getParkingLotById(id: string) {
     const parkingLotById = await this.parkingLotRepository.findOne({
       where: { id },
-      relations: { slot: true },
+      relations: { slot: true, appointments: true },
     });
 
     if (!parkingLotById) {
@@ -76,5 +79,37 @@ export class ParkingLotRepository {
     if (!createdParkingLot)
       throw new BadRequestException('Parking lot created');
     return createdParkingLot;
+  }
+
+  async updateParkingLot(
+    parkingLot: UpdateParkingLotDto,
+    parkingLotId: string,
+  ) {
+    const parking = await this.parkingLotRepository.findOne({
+      where: { id: parkingLotId },
+    });
+    if (!parking) {
+      throw new NotFoundException('Parking lot not found');
+    }
+    const updatedParkingLot = await this.parkingLotRepository.update(
+      parkingLotId,
+      parkingLot,
+    );
+    if (!updatedParkingLot)
+      throw new BadRequestException('Error updating parking');
+
+    return `Parking with ID: ${parkingLotId} lot updated successfully`;
+  }
+  async deleteParkingLot(parkingLotId: string) {
+    const parkingLot = await this.parkingLotRepository.findOne({
+      where: { id: parkingLotId },
+    });
+    if (!parkingLot) throw new NotFoundException('Parking lot not found');
+    const deletedParkingLot =
+      await this.parkingLotRepository.delete(parkingLotId);
+    if (!deletedParkingLot)
+      throw new BadRequestException('Error to delete parking');
+
+    return `Parking with ID: ${parkingLotId} lot deleted successfully`;
   }
 }

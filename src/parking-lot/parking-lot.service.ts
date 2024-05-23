@@ -1,24 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { ParkingLotRepository } from './parking-lot.repository';
-import { CreateParkingLotDto } from 'src/dtos/ParkingLot.dto';
+import {
+  CreateParkingLotDto,
+  UpdateParkingLotDto,
+} from 'src/dtos/ParkingLot.dto';
 
 @Injectable()
 export class ParkingLotService {
   constructor(private readonly parkingLotRepository: ParkingLotRepository) {}
 
-  addParkingLots() {
-    return this.parkingLotRepository.addParkingLots();
+  async addParkingLots() {
+    return await this.parkingLotRepository.addParkingLots();
   }
 
-  getParkingLots(page?: number, limit?: number) {
-    return this.parkingLotRepository.getParkingLots(page, limit);
+  async getParkingLots(page?: number, limit?: number) {
+    return await this.parkingLotRepository.getParkingLots(page, limit);
   }
 
-  getParkingLotById(id: string) {
+  async getParkingLotById(id: string) {
     return this.parkingLotRepository.getParkingLotById(id);
   }
 
   async createParkingLot(parkingLot: CreateParkingLotDto) {
     return await this.parkingLotRepository.createParkingLot(parkingLot);
+  }
+
+  async updateParkingLot(
+    parkingLot: UpdateParkingLotDto,
+    parkingLotId: string,
+  ) {
+    return await this.parkingLotRepository.updateParkingLot(
+      parkingLot,
+      parkingLotId,
+    );
+  }
+
+  async deleteParkingLot(parkingLotId: string) {
+    return await this.parkingLotRepository.deleteParkingLot(parkingLotId);
   }
 }

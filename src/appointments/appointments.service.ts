@@ -29,4 +29,7 @@ export class AppointmentsService {
   async getAppointmentById(id: string) {
     return await this.appointmentsRepository.getAppointmentById(id);
   }
+  async deleteAppointments(id: string) {
+    return await this.appointmentsRepository.deleteAppointments(id);
+  }
 }

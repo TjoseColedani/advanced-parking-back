@@ -1,15 +1,21 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { ParkingLotService } from './parking-lot.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateParkingLotDto } from 'src/dtos/ParkingLot.dto';
+import {
+  CreateParkingLotDto,
+  UpdateParkingLotDto,
+} from 'src/dtos/ParkingLot.dto';
 import { Role } from 'src/enums/roles.enum';
 import { Roles } from 'src/decorators/roles.decorators';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -22,7 +28,7 @@ export class ParkingLotController {
 
   @Get('seeder')
   async addParkingLots() {
-    return this.parkingLotService.addParkingLots();
+    return await this.parkingLotService.addParkingLots();
   }
 
   @Get()
@@ -30,18 +36,38 @@ export class ParkingLotController {
     @Query('page') page?: number,
     @Query('limit') limit?: number,
   ) {
-    return this.parkingLotService.getParkingLots(page, limit);
+    return await this.parkingLotService.getParkingLots(page, limit);
   }
 
   @Get(':id')
-  async getParkingLotById(@Param('id') id: string) {
-    return this.parkingLotService.getParkingLotById(id);
+  async getParkingLotById(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.parkingLotService.getParkingLotById(id);
   }
 
   @Post()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async createParkingLot(@Body() parkingLot: CreateParkingLotDto) {
-    return this.parkingLotService.createParkingLot(parkingLot);
+    return await this.parkingLotService.createParkingLot(parkingLot);
+  }
+
+  @Put(':id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  async updateParkingLot(
+    @Body() parkingLot: UpdateParkingLotDto,
+    @Param('id', ParseUUIDPipe) parkingLotId: string,
+  ) {
+    return await this.parkingLotService.updateParkingLot(
+      parkingLot,
+      parkingLotId,
+    );
+  }
+
+  @Delete(':id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  async deleteParkingLot(@Param('id', ParseUUIDPipe) parkingLotId: string) {
+    return await this.parkingLotService.deleteParkingLot(parkingLotId);
   }
 }
