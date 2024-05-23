@@ -83,8 +83,10 @@ export class SlotRepository {
     const updatedSlots = allSlots.map((slot) => {
       if (reservations.some((appointment) => appointment.slot.id === slot.id)) {
         slot.slot_status = SlotStatus.Unavailable;
+        return slot;
       } else {
         slot.slot_status = SlotStatus.Available;
+        return slot;
       }
     });
     return updatedSlots;
