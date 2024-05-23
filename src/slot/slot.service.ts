@@ -23,7 +23,7 @@ export class SlotService {
     duration: string,
     parkingLotId: string,
   ) {
-    throw await this.slotRepository.getAvailableSlots(
+    return await this.slotRepository.getAvailableSlots(
       date,
       time,
       duration,

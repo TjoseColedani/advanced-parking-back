@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ParkingLotRepository } from './parking-lot.repository';
-import { CreateParkingLotDto } from 'src/dtos/ParkingLot.dto';
+import {
+  CreateParkingLotDto,
+  UpdateParkingLotDto,
+} from 'src/dtos/ParkingLot.dto';
 
 @Injectable()
 export class ParkingLotService {
@@ -20,6 +23,16 @@ export class ParkingLotService {
 
   async createParkingLot(parkingLot: CreateParkingLotDto) {
     return await this.parkingLotRepository.createParkingLot(parkingLot);
+  }
+
+  async updateParkingLot(
+    parkingLot: UpdateParkingLotDto,
+    parkingLotId: string,
+  ) {
+    return await this.parkingLotRepository.updateParkingLot(
+      parkingLot,
+      parkingLotId,
+    );
   }
 
   async deleteParkingLot(parkingLotId: string) {
