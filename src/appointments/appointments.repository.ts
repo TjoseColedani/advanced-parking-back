@@ -15,7 +15,7 @@ import { ParkingLot } from 'src/entities/parkingLot.entity';
 import { Slot } from 'src/entities/slot.entity';
 import { User } from 'src/entities/user.entity';
 import { SlotStatus } from 'src/enums/slot-status.enum';
-import { MoreThan, Repository } from 'typeorm';
+import { LessThan, MoreThan, Repository } from 'typeorm';
 
 @Injectable()
 export class AppointmentsRepository {
@@ -34,6 +34,14 @@ export class AppointmentsRepository {
 
     private readonly emailSenderRepository: EmailSenderRepository,
   ) {}
+
+  private convertToDateTime(date: string, time: string): Date {
+    const [day, month, year] = date
+      .split('/')
+      .map((part) => parseInt(part, 10));
+    const [hours, minutes] = time.split(':').map((part) => parseInt(part, 10));
+    return new Date(year, month - 1, day, hours, minutes);
+  }
   async getAppointments(page?: number, limit?: number): Promise<Appointment[]> {
     if (page !== undefined && limit !== undefined) {
       const offset = (page - 1) * limit;
@@ -81,10 +89,17 @@ export class AppointmentsRepository {
       throw new BadRequestException('Appointment already exists');
     }
 
+    const startTime = this.convertToDateTime(
+      appointment.date,
+      appointment.time,
+    );
+    const durationInMinutes = parseInt(appointment.duration) * 60;
+    const endTime = new Date(startTime.getTime() + durationInMinutes * 60000);
+
     const oldAppointment = await this.appointmentsRepository.findOne({
       where: {
-        date: appointment.date,
-        time: appointment.time,
+        start_time: LessThan(endTime),
+        end_time: MoreThan(startTime),
         parking_lot: parkingLot,
       },
     });
@@ -103,6 +118,7 @@ export class AppointmentsRepository {
       where: {
         parking_lot: slotInParkingLot,
         slot_status: SlotStatus.Available,
+        slot_number: Number(appointment.slot_number),
       },
     });
 
@@ -120,6 +136,8 @@ export class AppointmentsRepository {
     newAppointment.status = 'active';
     newAppointment.total = appointment.total;
     newAppointment.slot_number = appointment.slot_number;
+    newAppointment.start_time = startTime;
+    newAppointment.end_time = endTime;
 
     const createdAppointment =
       await this.appointmentsRepository.save(newAppointment);
@@ -127,9 +145,6 @@ export class AppointmentsRepository {
       throw new BadRequestException('error saving appointment');
 
     try {
-      await this.slotRepository.update(slot.id, {
-        slot_status: SlotStatus.Reserved,
-      });
       await this.emailSenderRepository.sendReservationConfirmationEmail({
         name: user.name,
         email: user.email,
@@ -140,11 +155,10 @@ export class AppointmentsRepository {
         location: createdAppointment.parking_lot.location,
       });
     } catch {
-      throw new BadRequestException('error updating slot');
+      throw new BadRequestException(
+        'Error sending reservation confirmation email',
+      );
     }
-    await this.parkingLotRepository.update(parkingLotId, {
-      slots_stock: slotInParkingLot.slots_stock - 1,
-    });
     return await this.appointmentsRepository.findOne({
       where: { id: createdAppointment.id },
       relations: { parking_lot: true, slot: true },
@@ -161,9 +175,7 @@ export class AppointmentsRepository {
     if (!slot) {
       throw new NotFoundException('Slot not found');
     }
-    await this.appointmentsRepository.update(appointment.id, {
-      is_parked: newStatus.is_parked,
-    });
+    await this.appointmentsRepository.update(appointment.id, newStatus);
 
     await this.slotRepository.update(slot.id, {
       slot_status: newStatus.slot_status,
@@ -191,22 +203,13 @@ export class AppointmentsRepository {
     });
     if (!appointmentDeleted)
       throw new BadRequestException('Error to delete appointment');
-    const parking = await this.parkingLotRepository.findOne({
-      where: { id: appointment.parking_lot.id },
-    });
-    if (!parking) throw new NotFoundException('Parking not found');
-    const parkingUpdated = await this.parkingLotRepository.update(
-      appointment.parking_lot.id,
-      { slots_stock: parking.slots_stock + 1 },
-    );
-    if (!parkingUpdated)
-      throw new BadRequestException('Error to update parking');
+
     return 'appointment cancelled successfully';
   }
   async getAppointmentById(@Param('id') id: string) {
     const appointment = await this.appointmentsRepository.findOne({
       where: { id: id },
-      relations: { parking_lot: true, slot: true },
+      relations: { parking_lot: true, slot: true, user: true },
     });
 
     if (!appointment) {
@@ -214,5 +217,18 @@ export class AppointmentsRepository {
     }
 
     return appointment;
+  }
+  async deleteAppointments(id: string) {
+    const appointment = await this.appointmentsRepository.findOne({
+      where: { id: id },
+    });
+    if (!appointment) {
+      throw new NotFoundException('Appointment not found');
+    }
+    const appointmentDeleted = await this.appointmentsRepository.update(id, {
+      status: 'deleted',
+    });
+    if (!appointmentDeleted)
+      throw new BadRequestException('Error to delete appointment');
   }
 }

@@ -5,6 +5,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { SlotService } from './slot.service';
@@ -23,6 +24,21 @@ export class SlotController {
   @Get('seeder')
   async slotSeeder() {
     return await this.slotService.slotSeeder();
+  }
+
+  @Get()
+  async getAvailableSlots(
+    @Query('date') date: string,
+    @Query('time') time: string,
+    @Query('duration') duration: string,
+    @Query('parking_lot_id') parkingLotId: string,
+  ) {
+    return await this.slotService.getAvailableSlots(
+      date,
+      time,
+      duration,
+      parkingLotId,
+    );
   }
 
   @Post()

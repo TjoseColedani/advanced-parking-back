@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Query,
   UseGuards,
@@ -22,7 +24,7 @@ export class ParkingLotController {
 
   @Get('seeder')
   async addParkingLots() {
-    return this.parkingLotService.addParkingLots();
+    return await this.parkingLotService.addParkingLots();
   }
 
   @Get()
@@ -30,18 +32,25 @@ export class ParkingLotController {
     @Query('page') page?: number,
     @Query('limit') limit?: number,
   ) {
-    return this.parkingLotService.getParkingLots(page, limit);
+    return await this.parkingLotService.getParkingLots(page, limit);
   }
 
   @Get(':id')
-  async getParkingLotById(@Param('id') id: string) {
-    return this.parkingLotService.getParkingLotById(id);
+  async getParkingLotById(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.parkingLotService.getParkingLotById(id);
   }
 
   @Post()
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async createParkingLot(@Body() parkingLot: CreateParkingLotDto) {
-    return this.parkingLotService.createParkingLot(parkingLot);
+    return await this.parkingLotService.createParkingLot(parkingLot);
+  }
+
+  @Delete(':id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  async deleteParkingLot(@Param('id', ParseUUIDPipe) parkingLotId: string) {
+    return await this.parkingLotService.deleteParkingLot(parkingLotId);
   }
 }

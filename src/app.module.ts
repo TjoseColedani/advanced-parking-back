@@ -15,6 +15,8 @@ import { mailerConfig } from './config/mailer.config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailSenderModule } from './email-sender/email-sender.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
+import { SchedulerModule } from './scheduler/scheduler.module';
+import { SchedulerService } from './scheduler/scheduler.service';
 
 @Module({
   imports: [
@@ -41,8 +43,15 @@ import { FileUploadModule } from './file-upload/file-upload.module';
     AppointmentModule,
     EmailSenderModule,
     FileUploadModule,
+    SchedulerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly schedulerService: SchedulerService) {}
+
+  onModuleInit() {
+    this.schedulerService.handleCron();
+  }
+}
