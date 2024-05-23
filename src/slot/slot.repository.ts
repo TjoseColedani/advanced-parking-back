@@ -22,8 +22,8 @@ export class SlotRepository {
   ) {}
 
   private convertToDateTime(date: string, time: string): Date {
-    const [day, month, year] = date
-      .split('/')
+    const [year, month, day] = date
+      .split('-')
       .map((part) => parseInt(part, 10));
     const [hours, minutes] = time.split(':').map((part) => parseInt(part, 10));
     return new Date(year, month - 1, day, hours, minutes);
@@ -58,10 +58,14 @@ export class SlotRepository {
     const durationInMinutes = parseInt(duration) * 60;
     const endTime = new Date(startTime.getTime() + durationInMinutes * 60000);
 
+    console.log('startime', startTime);
+    console.log('endtime', endTime);
+
     const parking = await this.parkingLotRepository.findOne({
       where: { id: parkingLotId },
     });
     if (!parking) throw new NotFoundException('Parking lot not found');
+    console.log('parking', parking);
 
     const allSlots = await this.slotRepository.find({
       where: {
@@ -69,6 +73,7 @@ export class SlotRepository {
       },
     });
     if (!allSlots) throw new NotFoundException('Slots not found');
+    console.log('allSlots', allSlots);
 
     const reservations = await this.appointmentRepository.find({
       where: {
@@ -78,15 +83,21 @@ export class SlotRepository {
       },
       relations: ['slot'],
     });
+    console.log('reservations', reservations);
+
     // if (!reservations) throw new NotFoundException('Reservations not found');
 
     const updatedSlots = allSlots.map((slot) => {
       if (reservations.some((appointment) => appointment.slot.id === slot.id)) {
         slot.slot_status = SlotStatus.Unavailable;
+        return slot;
       } else {
         slot.slot_status = SlotStatus.Available;
+        return slot;
       }
     });
+    console.log('updatedSlots', updatedSlots);
+
     return updatedSlots;
   }
 
