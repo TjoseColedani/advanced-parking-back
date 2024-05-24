@@ -1,6 +1,10 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { EmailSenderService } from './email-sender.service';
-import { EmailSenderDto, RegisterSenderDto } from 'src/dtos/EmailSender.dto';
+import {
+  EmailSenderDto,
+  RegisterSenderDto,
+  UserFormSenderDto,
+} from 'src/dtos/EmailSender.dto';
 
 @Controller('email-sender')
 export class EmailSenderController {
@@ -31,5 +35,11 @@ export class EmailSenderController {
   @Post('schedule-reminder')
   scheduleReminderEmail(@Body() emailSenderDto: EmailSenderDto) {
     return this.emailSenderService.scheduleReminderEmail(emailSenderDto);
+  }
+
+  @Post('contact-form')
+  async sendUserContactForm(@Body() userFormSenderDto: UserFormSenderDto) {
+    await this.emailSenderService.sendUserContactForm(userFormSenderDto);
+    return 'Test notification email sent successfully';
   }
 }

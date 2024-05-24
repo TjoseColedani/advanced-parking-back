@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { EmailSenderRepository } from './email-sender.repository';
-import { EmailSenderDto, RegisterSenderDto } from 'src/dtos/EmailSender.dto';
+import {
+  EmailSenderDto,
+  RegisterSenderDto,
+  UserFormSenderDto,
+} from 'src/dtos/EmailSender.dto';
 
 @Injectable()
 export class EmailSenderService {
@@ -22,5 +26,9 @@ export class EmailSenderService {
   }
   scheduleReminderEmail(emailSenderDto: EmailSenderDto) {
     return this.emailSenderRepository.scheduleReminderEmail(emailSenderDto);
+  }
+
+  sendUserContactForm(userFormSenderDto: UserFormSenderDto) {
+    return this.emailSenderRepository.sendUserContactForm(userFormSenderDto);
   }
 }
