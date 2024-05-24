@@ -21,9 +21,9 @@ const config = {
   autoLoadEntities: true,
   logging: true,
   dropSchema: false,
-  // ssl: {
-  //   rejectUnauthorized: false,
-  // },
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
 
 export default registerAs('typeorm', () => config);
