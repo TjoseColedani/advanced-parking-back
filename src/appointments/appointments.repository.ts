@@ -101,6 +101,7 @@ export class AppointmentsRepository {
         start_time: LessThan(endTime),
         end_time: MoreThan(startTime),
         parking_lot: parkingLot,
+        slot_number: appointment.slot_number,
       },
     });
     if (oldAppointment) {
