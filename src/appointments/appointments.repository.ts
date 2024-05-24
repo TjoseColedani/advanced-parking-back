@@ -36,7 +36,7 @@ export class AppointmentsRepository {
   ) {}
 
   private convertToDateTime(date: string, time: string): Date {
-    const [day, month, year] = date
+    const [year, month, day] = date
       .split('/')
       .map((part) => parseInt(part, 10));
     const [hours, minutes] = time.split(':').map((part) => parseInt(part, 10));
@@ -88,13 +88,15 @@ export class AppointmentsRepository {
     if (myAppointment) {
       throw new BadRequestException('Appointment already exists');
     }
+    const newDate = appointment.date.split('-').join('/');
+    // console.log('new date', newDate);
 
-    const startTime = this.convertToDateTime(
-      appointment.date,
-      appointment.time,
-    );
+    const startTime = this.convertToDateTime(newDate, appointment.time);
+    // console.log('start time', startTime);
+
     const durationInMinutes = parseInt(appointment.duration) * 60;
     const endTime = new Date(startTime.getTime() + durationInMinutes * 60000);
+    // console.log('end time', endTime);
 
     const oldAppointment = await this.appointmentsRepository.findOne({
       where: {

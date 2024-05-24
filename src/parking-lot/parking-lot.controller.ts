@@ -6,12 +6,16 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { ParkingLotService } from './parking-lot.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateParkingLotDto } from 'src/dtos/ParkingLot.dto';
+import {
+  CreateParkingLotDto,
+  UpdateParkingLotDto,
+} from 'src/dtos/ParkingLot.dto';
 import { Role } from 'src/enums/roles.enum';
 import { Roles } from 'src/decorators/roles.decorators';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -45,6 +49,19 @@ export class ParkingLotController {
   @UseGuards(AuthGuard, RolesGuard)
   async createParkingLot(@Body() parkingLot: CreateParkingLotDto) {
     return await this.parkingLotService.createParkingLot(parkingLot);
+  }
+
+  @Put(':id')
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  async updateParkingLot(
+    @Body() parkingLot: UpdateParkingLotDto,
+    @Param('id', ParseUUIDPipe) parkingLotId: string,
+  ) {
+    return await this.parkingLotService.updateParkingLot(
+      parkingLot,
+      parkingLotId,
+    );
   }
 
   @Delete(':id')
