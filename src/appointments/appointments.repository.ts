@@ -233,5 +233,19 @@ export class AppointmentsRepository {
     });
     if (!appointmentDeleted)
       throw new BadRequestException('Error to delete appointment');
+    return 'appointment deleted successfully';
+  }
+
+  async cancelAppointmentByError(id: string) {
+    const appointment = await this.appointmentsRepository.findOne({
+      where: { id: id },
+    });
+    if (!appointment) {
+      throw new NotFoundException('Appointment not found');
+    }
+    const appointmentDeleted = await this.appointmentsRepository.delete(id);
+    if (!appointmentDeleted)
+      throw new BadRequestException('Error to delete appointment');
+    return 'appointment deleted successfully';
   }
 }

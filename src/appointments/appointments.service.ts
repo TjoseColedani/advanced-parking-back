@@ -32,4 +32,8 @@ export class AppointmentsService {
   async deleteAppointments(id: string) {
     return await this.appointmentsRepository.deleteAppointments(id);
   }
+
+  async cancelAppointments(id: string) {
+    return await this.appointmentsRepository.cancelAppointmentByError(id);
+  }
 }
