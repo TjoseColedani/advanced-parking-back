@@ -11,12 +11,14 @@ import {
   CreateParkingLotDto,
   UpdateParkingLotDto,
 } from 'src/dtos/ParkingLot.dto';
+import { SlotRepository } from 'src/slot/slot.repository';
 
 @Injectable()
 export class ParkingLotRepository {
   constructor(
     @InjectRepository(ParkingLot)
     private readonly parkingLotRepository: Repository<ParkingLot>,
+    private readonly slotRepository: SlotRepository,
   ) {}
 
   async addParkingLots() {
@@ -70,7 +72,7 @@ export class ParkingLotRepository {
     const newParkingLot = new ParkingLot();
     newParkingLot.name = parkingLot.name;
     newParkingLot.location = parkingLot.location;
-    newParkingLot.slots_stock = parkingLot.slot_stock;
+    newParkingLot.slots_stock = 0;
     newParkingLot.lat = parkingLot.lat;
     newParkingLot.lng = parkingLot.lng;
 
@@ -78,7 +80,17 @@ export class ParkingLotRepository {
       await this.parkingLotRepository.save(newParkingLot);
     if (!createdParkingLot)
       throw new BadRequestException('Parking lot created');
-    return createdParkingLot;
+    for (let i = 0; i < parkingLot.slot_stock; i++) {
+      await this.slotRepository.addSlot({
+        parking_lot_id: createdParkingLot.id,
+      });
+    }
+    const updatedParkingLot = await this.parkingLotRepository.findOne({
+      where: { id: createdParkingLot.id },
+      relations: { slot: true },
+    });
+
+    return updatedParkingLot;
   }
 
   async updateParkingLot(
