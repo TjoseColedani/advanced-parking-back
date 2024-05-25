@@ -33,7 +33,7 @@ export class AppointmentsService {
     return await this.appointmentsRepository.deleteAppointments(id);
   }
 
-  async cancelAppointments(id: string) {
-    return await this.appointmentsRepository.cancelAppointmentByError(id);
+  async successPayment(id: string) {
+    return await this.appointmentsRepository.successPayment(id);
   }
 }

@@ -67,9 +67,9 @@ export class AppointmentsController {
     return await this.appointmentsService.deleteAppointments(id);
   }
 
-  @Delete('cancel/:id')
+  @Put('success/:id')
   @UseGuards(AuthGuard)
-  async cancelAppointmentById(@Param('id') id: string) {
-    return await this.appointmentsService.cancelAppointments(id);
+  async successPayment(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.appointmentsService.successPayment(id);
   }
 }
