@@ -43,7 +43,7 @@ export class PaymentService {
         ],
         mode: 'payment',
         success_url: `https://advanced-parking.vercel.app/success/${appointment_id}`, // <-- payment successful - front
-        cancel_url: `https://advanced-parking.vercel.app/cancel/${appointment_id}`, // <-- couldn't process payment/cancellation - front
+        cancel_url: `https://advanced-parking.vercel.app/cancel`, // <-- couldn't process payment/cancellation - front
       });
       return { url: session.url, session: session };
     } catch (error) {
