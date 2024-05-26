@@ -105,7 +105,8 @@ export class UpdateUserDto {
   })
   @IsString()
   @Length(3, 50)
-  name?: string;
+  @IsOptional()
+  name: string;
 
   /**
    * Correo electrónico del usuario
@@ -117,6 +118,7 @@ export class UpdateUserDto {
     required: false,
   })
   @IsEmail()
+  @IsOptional()
   email?: string;
 
   /**
@@ -130,6 +132,7 @@ export class UpdateUserDto {
     required: false,
   })
   @IsString()
+  @IsOptional()
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/,
     {
@@ -151,6 +154,7 @@ export class UpdateUserDto {
     required: false,
   })
   @IsString()
+  @IsOptional()
   confirmPassword?: string;
 
   /**
@@ -163,6 +167,7 @@ export class UpdateUserDto {
     required: false,
   })
   @IsNumber()
+  @IsOptional()
   phone?: number;
 }
 
@@ -175,7 +180,7 @@ export class LoginUserDto {
     description: 'Correo electrónico del usuario, debe ser un email válido',
     example: 'CarlosGarcia@gmail.com',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsEmail()
   email: string;
 
@@ -188,7 +193,7 @@ export class LoginUserDto {
       'Contraseña del usuario, debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial',
     example: 'CarlosGarcia123!',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   password: string;
 }
