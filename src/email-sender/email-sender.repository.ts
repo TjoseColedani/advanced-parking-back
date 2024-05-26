@@ -1,6 +1,10 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { EmailSenderDto, RegisterSenderDto } from 'src/dtos/EmailSender.dto';
+import {
+  EmailSenderDto,
+  RegisterSenderDto,
+  UserFormSenderDto,
+} from 'src/dtos/EmailSender.dto';
 import * as schedule from 'node-schedule';
 
 @Injectable()
@@ -91,6 +95,18 @@ export class EmailSenderRepository {
     <p>This is a friendly reminder that you have a reservation in our parking lot for ${emailSenderDto.date} at ${emailSenderDto.time}.</p>
     <p>Thank you for choosing us!</p>
     <p>Sincerely,<br>Advanced Parking</p>`,
+    });
+  }
+
+  async sendUserContactForm(userFormSenderDto: UserFormSenderDto) {
+    await this.emailSenderRepository.sendMail({
+      to: 'advancedparking.2024@gmail.com',
+      from: 'advancedparking.2024@gmail.com',
+      subject: `${userFormSenderDto.user_name}Notification from Contact Form`,
+      text: userFormSenderDto.user_message,
+      html: `<p>User Name: ${userFormSenderDto.user_name}</p>
+             <p>User Message: ${userFormSenderDto.user_message}</p>
+             <p>User Email: ${userFormSenderDto.user_email}</p>`,
     });
   }
 }

@@ -30,3 +30,12 @@ export class ReminderSenderDto extends PickType(EmailSenderDto, [
   'date',
   'time',
 ]) {}
+
+export class UserFormSenderDto {
+  @IsString()
+  user_name: string;
+  @IsEmail()
+  user_email: string;
+  @IsString()
+  user_message: string;
+}

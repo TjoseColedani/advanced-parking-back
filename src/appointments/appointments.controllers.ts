@@ -37,7 +37,6 @@ export class AppointmentsController {
 
   @Post()
   async createAppointment(@Body() appointment: CreateAppointmentDto) {
-    console.log('llegmos');
     return await this.appointmentsService.createAppointments(appointment);
   }
 
@@ -66,5 +65,11 @@ export class AppointmentsController {
   @UseGuards(AuthGuard, RolesGuard)
   async deleteAppointmentById(@Param('id') id: string) {
     return await this.appointmentsService.deleteAppointments(id);
+  }
+
+  @Put('success/:id')
+  @UseGuards(AuthGuard)
+  async successPayment(@Param('id', ParseUUIDPipe) id: string) {
+    return await this.appointmentsService.successPayment(id);
   }
 }

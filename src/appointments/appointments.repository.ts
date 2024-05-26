@@ -136,7 +136,7 @@ export class AppointmentsRepository {
     newAppointment.duration = appointment.duration;
     newAppointment.slot = slot;
     newAppointment.parking_lot = parkingLot;
-    newAppointment.status = 'active';
+    newAppointment.status = 'deleted';
     newAppointment.total = appointment.total;
     newAppointment.slot_number = appointment.slot_number;
     newAppointment.start_time = startTime;
@@ -233,5 +233,27 @@ export class AppointmentsRepository {
     });
     if (!appointmentDeleted)
       throw new BadRequestException('Error to delete appointment');
+    return 'appointment deleted successfully';
+  }
+
+  async successPayment(id: string) {
+    const appointment = await this.appointmentsRepository.findOne({
+      where: { id: id },
+    });
+    if (!appointment) {
+      throw new NotFoundException('Appointment not found');
+    }
+    const appointmentUpdated = await this.appointmentsRepository.update(id, {
+      status: 'active',
+    });
+    if (!appointmentUpdated)
+      throw new BadRequestException('Error to create appointment');
+    const updatedAppointment = this.appointmentsRepository.findOne({
+      where: { id },
+    });
+    return {
+      message: 'appointment created successfully',
+      appointment: updatedAppointment,
+    };
   }
 }
