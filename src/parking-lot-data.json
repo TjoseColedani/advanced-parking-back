@@ -3,175 +3,175 @@
     "name": "Best Park",
     "slots_stock": 20,
     "location": "Estacionamiento Aeroparque",
-    "lat": 34.559524,
-    "lng": 58.462132
+    "lat": -34.559524,
+    "lng": -58.462132
   },
   {
     "name": "Concepcion",
     "slots_stock": 20,
     "location": "Costa Rica 4862",
-    "lat": 34.587042,
-    "lng": 58.428806
+    "lat": -34.587042,
+    "lng": -58.428806
   },
   {
     "name": "Costa Rica",
     "slots_stock": 20,
     "location": "Zapiola 151",
-    "lat": 34.578567,
-    "lng": 58.443153
+    "lat": -34.578567,
+    "lng": -58.443153
   },
   {
     "name": "Guayaquil",
     "slots_stock": 20,
     "location": "Misiones 141",
-    "lat": 34.611737,
-    "lng": 58.404492
+    "lat": -34.611737,
+    "lng": -58.404492
   },
   {
     "name": "El Griego",
     "slots_stock": 20,
     "location": "Adolfo Alsina 2411",
-    "lat": 34.612058,
-    "lng": 58.400489
+    "lat": -34.612058,
+    "lng": -58.400489
   },
   {
     "name": "Larrea",
     "slots_stock": 20,
     "location": "Tte. Gral. Juan Domingo Perón 2500",
-    "lat": 34.607501,
-    "lng": 58.401922
+    "lat": -34.607501,
+    "lng": -58.401922
   },
   {
     "name": "Federico Cabo",
     "slots_stock": 20,
     "location": "Larrea 291",
-    "lat": 34.606458,
-    "lng": 58.402003
+    "lat": -34.606458,
+    "lng": -58.402003
   },
   {
     "name": "Baires",
     "slots_stock": 20,
     "location": "Bartolomé Mitre 2181",
-    "lat": 34.608290,
-    "lng": 58.397386
+    "lat": -34.608290,
+    "lng": -58.397386
   },
   {
     "name": "Provincias",
     "slots_stock": 20,
     "location": "Bartolomé Mitre 2063",
-    "lat": 34.608228,
-    "lng": 58.395771
+    "lat": -34.608228,
+    "lng": -58.395771
   },
   {
     "name": "Sarmiento",
     "slots_stock": 20,
     "location": "Ayacucho 352",
-    "lat": 34.605186,
-    "lng": 58.395392
+    "lat": -34.605186,
+    "lng": -58.395392
   },
   {
     "name": "Santa Rosa",
     "slots_stock": 20,
     "location": "Adolfo Alsina 2062",
-    "lat": 34.611768,
-    "lng": 58.395618
+    "lat": -34.611768,
+    "lng": -58.395618
   },
   {
     "name": "Los Hermanos",
     "slots_stock": 20,
     "location": "Sarandí 156",
-    "lat": 34.611131,
-    "lng": 58.394699
+    "lat": -34.611131,
+    "lng": -58.394699
   },
   {
     "name": "Once",
     "slots_stock": 20,
     "location": "Boulogne Sur Mer 342",
-    "lat": 34.606151,
-    "lng": 58.407245
+    "lat": -34.606151,
+    "lng": -58.407245
   },
   {
     "name": "Eleven Park",
     "slots_stock": 20,
     "location": "Azcuénaga 376",
-    "lat": 34.605109,
-    "lng": 58.40083
+    "lat": -34.605109,
+    "lng": -58.40083
   },
   {
     "name": "Gran Abasto",
     "slots_stock": 20,
     "location": "Gallo 479",
-    "lat": 34.603613,
-    "lng": 58.412993
+    "lat":-34.603613,
+    "lng": -58.412993
   },
   {
     "name": "Estacionamiento Compañia Argentina de Negocios",
     "slots_stock": 20,
     "location": "Marcelo Torcuato de Alvear 1580",
-    "lat": 34.597168,
-    "lng": 58.389451
+    "lat": -34.597168,
+    "lng": -58.389451
   },
   {
     "name": "Hugo",
     "slots_stock": 20,
     "location": "Adolfo Alsina 2931",
-    "lat": 34.612485,
-    "lng": 58.407512
+    "lat": -34.612485,
+    "lng": -58.407512
   },
   {
     "name": "Potigian",
     "slots_stock": 20,
     "location": "Tte. Gral. Juan Domingo Perón 2500",
-    "lat": 34.607512,
-    "lng": 58.401890
+    "lat": -34.607512,
+    "lng": -58.401890
   },
   {
     "name": "Fan-Tor",
     "slots_stock": 20,
     "location": "La Rioja 390",
-    "lat": 34.614965,
-    "lng": 58.407974
+    "lat": -34.614965,
+    "lng": -58.407974
   },
   {
     "name": "San Agustin",
     "slots_stock": 20,
     "location": "Azcuénaga 311",
-    "lat": 34.605902,
-    "lng": 58.400739
+    "lat": -34.605902,
+    "lng": -58.400739
   },
   {
     "name": "Capital",
     "slots_stock": 20,
     "location": "Lavalle 2137",
-    "lat": 34.603239,
-    "lng": 58.397528
+    "lat": -34.603239,
+    "lng": -58.397528
   },
   {
     "name": "La Piedad",
     "slots_stock": 20,
     "location": "Cerrito 86",
-    "lat": 34.607616,
-    "lng": 58.382087
+    "lat": -34.607616,
+    "lng": -58.382087
   },
   {
     "name": "Laxe",
     "slots_stock": 20,
     "location": "Tte. Gral, Juan Domingo Peron 1355",
-    "lat": 34.606397,
-    "lng": 58.385802
+    "lat": -34.606397,
+    "lng": -58.385802
   },
   {
     "name": "Suipacha",
     "slots_stock": 20,
     "location": "Suipacha 161",
-    "lat": 34.606403,
-    "lng": 58.379284
+    "lat": -34.606403,
+    "lng": -58.379284
   },
   {
     "name": "Odeon",
     "slots_stock": 20,
     "location": "Av. Corrientes 770",
-    "lat": 34.603559,
-    "lng": 58.377584
+    "lat": -34.603559,
+    "lng": -58.377584
   }
 ]
