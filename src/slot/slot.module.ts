@@ -12,5 +12,6 @@ import { Appointment } from 'src/entities/appointment.entity';
   imports: [TypeOrmModule.forFeature([Slot, ParkingLot, Appointment])],
   controllers: [SlotController],
   providers: [SlotService, SlotRepository, ParkingLotRepository],
+  exports: [SlotRepository],
 })
 export class SlotModule {}
