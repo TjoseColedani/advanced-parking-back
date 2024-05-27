@@ -50,6 +50,7 @@ export class UserController {
   @Delete(':id')
   @ApiOperation({summary: 'Delete user by id'})
   @UseGuards(AuthGuard, RolesGuard)
+
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.remove(id);
   }

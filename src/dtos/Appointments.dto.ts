@@ -201,7 +201,7 @@ export class UpdateAppointmentDto {
    */
   @ApiPropertyOptional({
     description: 'Estado del espacio de estacionamiento (opcional)',
-    example: 'FREE',
+    example: 'available',
   })
   @IsOptional()
   @IsEnum(SlotStatus)
