@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ParkingLotService } from './parking-lot.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   CreateParkingLotDto,
   UpdateParkingLotDto,
@@ -27,11 +27,13 @@ export class ParkingLotController {
   constructor(private readonly parkingLotService: ParkingLotService) {}
 
   @Get('seeder')
+  @ApiOperation({summary: 'Seeder to add parking lots'})
   async addParkingLots() {
     return await this.parkingLotService.addParkingLots();
   }
 
   @Get()
+  @ApiOperation({summary: 'Get parking lots'})
   async getParkingLots(
     @Query('page') page?: number,
     @Query('limit') limit?: number,
@@ -40,11 +42,13 @@ export class ParkingLotController {
   }
 
   @Get(':id')
+  @ApiOperation({summary: 'Get parking lots by id'})
   async getParkingLotById(@Param('id', ParseUUIDPipe) id: string) {
     return await this.parkingLotService.getParkingLotById(id);
   }
 
   @Post()
+  @ApiOperation({summary: 'Create parking lot (admin only)'})
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async createParkingLot(@Body() parkingLot: CreateParkingLotDto) {
@@ -52,6 +56,7 @@ export class ParkingLotController {
   }
 
   @Put(':id')
+  @ApiOperation({summary: 'Update parking lot (admin only)'})
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async updateParkingLot(
@@ -65,6 +70,7 @@ export class ParkingLotController {
   }
 
   @Delete(':id')
+  @ApiOperation({summary: 'Delete parking lot (admin only)'})
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async deleteParkingLot(@Param('id', ParseUUIDPipe) parkingLotId: string) {
