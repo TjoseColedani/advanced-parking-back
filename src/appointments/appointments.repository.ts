@@ -136,7 +136,7 @@ export class AppointmentsRepository {
     newAppointment.duration = appointment.duration;
     newAppointment.slot = slot;
     newAppointment.parking_lot = parkingLot;
-    newAppointment.status = 'deleted';
+    newAppointment.status = appointment.status || 'deleted';
     newAppointment.total = appointment.total;
     newAppointment.slot_number = appointment.slot_number;
     newAppointment.start_time = startTime;
