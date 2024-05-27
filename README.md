@@ -22,7 +22,6 @@
 - Configure the environment variables, use the _.env.example_ file guide in the root of the **/back** folder.
 - Upload the project from the _/back_ path using **npm start**.
 
-<p> You will need some initial Parking Lots and Lots in order to start using the app</p>
 - To upload the **Parking-lot** and its corresponding **Slots** to the database you have to execute two requests in the following order:
     - GET to /parking-lot/seeder
     - GET to /slot/seeder     
