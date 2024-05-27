@@ -89,6 +89,10 @@ export class CreateAppointmentDto {
   @IsString()
   user_id: string;
 
+  @IsOptional()
+  @IsString()
+  status: 'active' | 'deleted';
+
   /**
    * ID del estacionamiento donde se hace la reserva
    * @example 'parkingLot45'
