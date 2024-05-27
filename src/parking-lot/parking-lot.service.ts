@@ -16,6 +16,9 @@ export class ParkingLotService {
   async getParkingLots(page?: number, limit?: number) {
     return await this.parkingLotRepository.getParkingLots(page, limit);
   }
+  async getAllParkingLots(page?: number, limit?: number) {
+    return await this.parkingLotRepository.getAllParkingLots(page, limit);
+  }
 
   async getParkingLotById(id: string) {
     return this.parkingLotRepository.getParkingLotById(id);
