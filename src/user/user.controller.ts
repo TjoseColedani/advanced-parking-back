@@ -48,14 +48,13 @@ export class UserController {
   }
 
   @Delete(':id')
-  @ApiOperation({summary: 'Delete user by id'})
-  @UseGuards(AuthGuard, RolesGuard)
-
+  @ApiOperation({ summary: 'Delete user by id' })
+  @UseGuards(AuthGuard)
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.userService.remove(id);
   }
   @Post('seeder')
-  @ApiOperation({summary: 'Create admin seeder'})
+  @ApiOperation({ summary: 'Create admin seeder' })
   createAdmin() {
     return this.userService.createAdmin();
   }
