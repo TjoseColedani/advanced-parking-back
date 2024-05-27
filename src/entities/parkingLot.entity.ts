@@ -41,6 +41,13 @@ export class ParkingLot {
   @Column('decimal', { precision: 10, scale: 6 })
   lng: number;
 
+  @Column({ type: 'varchar' })
+  @ApiProperty({
+    description: 'Estado del parking, puede ser "active" o "deleted"',
+    example: 'active',
+  })
+  status: 'active' | 'deleted';
+
   @OneToMany(() => Slot, (slot) => slot.parking_lot)
   @ApiProperty({
     description:

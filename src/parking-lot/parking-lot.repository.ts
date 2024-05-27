@@ -44,6 +44,23 @@ export class ParkingLotRepository {
     if (page !== undefined && limit !== undefined) {
       const offset = (page - 1) * limit;
       return await this.parkingLotRepository.find({
+        where: { status: 'active' },
+        relations: { slot: true },
+        skip: offset,
+        take: limit,
+      });
+    } else {
+      return await this.parkingLotRepository.find({
+        where: { status: 'active' },
+        relations: { slot: true },
+      });
+    }
+  }
+
+  async getAllParkingLots(page?: number, limit?: number) {
+    if (page !== undefined && limit !== undefined) {
+      const offset = (page - 1) * limit;
+      return await this.parkingLotRepository.find({
         relations: { slot: true },
         skip: offset,
         take: limit,
@@ -75,6 +92,7 @@ export class ParkingLotRepository {
     newParkingLot.slots_stock = 0;
     newParkingLot.lat = parkingLot.lat;
     newParkingLot.lng = parkingLot.lng;
+    newParkingLot.status = 'active';
 
     const createdParkingLot =
       await this.parkingLotRepository.save(newParkingLot);
@@ -117,11 +135,15 @@ export class ParkingLotRepository {
       where: { id: parkingLotId },
     });
     if (!parkingLot) throw new NotFoundException('Parking lot not found');
-    const deletedParkingLot =
-      await this.parkingLotRepository.delete(parkingLotId);
+    const deletedParkingLot = await this.parkingLotRepository.update(
+      parkingLotId,
+      {
+        status: 'deleted',
+      },
+    );
     if (!deletedParkingLot)
       throw new BadRequestException('Error to delete parking');
 
-    return `Parking with ID: ${parkingLotId} lot deleted successfully`;
+    return `Parking with ID: ${parkingLotId} deleted successfully`;
   }
 }
