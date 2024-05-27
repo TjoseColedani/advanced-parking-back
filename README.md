@@ -29,3 +29,21 @@
 - To create an **Admin** user you must execute a request to the following path:
     - POST to /user/seeder 
 
+
+# Modo de Uso App (en español)
+
+<p>Este proyecto esta creado con el fin de simular el proceso de reserva de establicimiento de parqueo, registrar, iniciar sesión y realizar las peticiones de crear un reserva, simulador de pago, edición de información de perfil y muchas funcionalidades más.</p>
+
+<h3>Instalación</h3>
+
+- Clonar el repositorio.
+- Ubicarte en la ruta a la altura de la carpeta **/back** e instalar las dependencias usando _npm install_.
+- Configurar las variables de entorno, usa la guia del arhchivo _.env.example_ en la raiz de la carpeta **/back**.
+- Levanta el proyecto desde la ruta _/back_ usado **npm start**.
+
+- Para subir a la base de datos los **Parking-lot** y sus correspondientes **Slots** hay que ejecutar dos solicitudes en el siguiente orden:
+    - GET a /parking-lot/seeder
+    - GET a /slot/seeder     
+
+- Para crear un usario **Admin** debes ejecutar una solicitud a la siguiente ruta:
+    - POST a /user/seeder 

@@ -14,7 +14,7 @@ import {
 import { FileUploadService } from './file-upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('files')
 @Controller('files')
@@ -25,6 +25,20 @@ export class FileUploadController {
   @Post('profile-image/:id')
   @UseGuards(AuthGuard)
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Update profile image',
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiOperation({ summary: 'Update profile image' })
   async uploadProfileImage(
     @Param('id', ParseUUIDPipe) id: string,
     @UploadedFile(
@@ -47,6 +61,7 @@ export class FileUploadController {
   }
   @ApiBearerAuth()
   @Delete('profile-image/:id')
+  @ApiOperation({ summary: 'Delete profile image' })
   @UseGuards(AuthGuard)
   async deleteProfileImage(@Param('id', ParseUUIDPipe) id: string) {
     return await this.fileUploadService.deleteProfileImage(id);

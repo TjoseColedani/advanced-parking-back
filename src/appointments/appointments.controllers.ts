@@ -16,7 +16,7 @@ import {
   CreateAppointmentDto,
   UpdateAppointmentDto,
 } from 'src/dtos/Appointments.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { RolesGuard } from 'src/guards/roles.guards';
 import { Roles } from 'src/decorators/roles.decorators';
@@ -28,6 +28,7 @@ export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Get()
+  @ApiOperation({summary: 'Get all appointments'})
   async getAppointments(
     @Query('page', ParseIntPipe) page: number = 1,
     @Query('limit', ParseIntPipe) limit: number = 10,
@@ -36,11 +37,13 @@ export class AppointmentsController {
   }
 
   @Post()
+  @ApiOperation({summary: 'Create appointment'})
   async createAppointment(@Body() appointment: CreateAppointmentDto) {
     return await this.appointmentsService.createAppointments(appointment);
   }
 
   @Put('update-status/:id')
+  @ApiOperation({summary: 'Update appointment status by id (Admin only)'})
   @Roles(Role.Porter)
   @UseGuards(AuthGuard, RolesGuard)
   async updateAppointmentStatus(
@@ -51,16 +54,19 @@ export class AppointmentsController {
   }
 
   @Put('/cancel/:id')
+  @ApiOperation({summary: 'Cancel appointment by id (Admin only)'})
   async cancelAppointment(@Param('id', ParseUUIDPipe) id: string) {
     return this.appointmentsService.cancelAppointment(id);
   }
 
   @Get(':id')
+  @ApiOperation({summary: 'Get appointment by id'})
   async getAppointmentById(@Param('id', ParseUUIDPipe) id: string) {
     return this.appointmentsService.getAppointmentById(id);
   }
 
   @Delete(':id')
+  @ApiOperation({summary: 'Delete appointment by id (admin only)'})
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async deleteAppointmentById(@Param('id') id: string) {
@@ -68,6 +74,7 @@ export class AppointmentsController {
   }
 
   @Put('success/:id')
+  @ApiOperation({summary: 'Update appointment by id'})
   @UseGuards(AuthGuard)
   async successPayment(@Param('id', ParseUUIDPipe) id: string) {
     return await this.appointmentsService.successPayment(id);
