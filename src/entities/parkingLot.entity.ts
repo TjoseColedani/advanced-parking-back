@@ -41,7 +41,7 @@ export class ParkingLot {
   @Column('decimal', { precision: 10, scale: 6 })
   lng: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', default: 'active' })
   @ApiProperty({
     description: 'Estado del parking, puede ser "active" o "deleted"',
     example: 'active',
