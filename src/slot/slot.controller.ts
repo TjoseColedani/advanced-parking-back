@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { SlotService } from './slot.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorators';
 import { Role } from 'src/enums/roles.enum';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -22,11 +22,13 @@ export class SlotController {
   constructor(private readonly slotService: SlotService) {}
 
   @Get('seeder')
+  @ApiOperation({summary: 'Get slots seeder'})
   async slotSeeder() {
     return await this.slotService.slotSeeder();
   }
 
   @Get()
+  @ApiOperation({summary: 'Get available slots'})
   async getAvailableSlots(
     @Query('date') date: string,
     @Query('time') time: string,
@@ -42,6 +44,7 @@ export class SlotController {
   }
 
   @Post()
+  @ApiOperation({summary: 'Add slot (admin only)'})
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async addSlot(@Body() slot: CreateSlotDto) {
@@ -49,6 +52,7 @@ export class SlotController {
   }
 
   @Put(':id')
+  @ApiOperation({summary: 'Update slot (admin only)'})
   @Roles(Role.Admin)
   @UseGuards(AuthGuard, RolesGuard)
   async updateSlot(@Body() slot: UpdateSlotDto, @Param('id') slotId: string) {

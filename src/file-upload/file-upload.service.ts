@@ -33,7 +33,7 @@ export class FileUploadService {
       where: {
         id: userId,
       },
-      select: ['id', 'name', 'email', 'image'],
+      select: ['id', 'name', 'email', 'image', 'phone'],
     });
 
     return updatedUser;
