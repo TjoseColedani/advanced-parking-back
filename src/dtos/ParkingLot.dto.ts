@@ -34,4 +34,8 @@ export class UpdateParkingLotDto {
   @IsNumber()
   @IsOptional()
   lng: number;
+
+  @IsString()
+  @IsOptional()
+  status: 'active' | 'deleted';
 }
