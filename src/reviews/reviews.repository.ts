@@ -24,20 +24,25 @@ export class ReviewsRepository {
     });
     if (allReviews.length === 0)
       throw new NotFoundException('Reviews not found');
-    const updatedReviews = allReviews.map((review) => {
-      return {
-        id: review.id,
-        message: review.message,
-        rating: review.rating,
-        user: {
-          id: review.user.id,
-          name: review.user.name,
-          email: review.user.email,
-          image: review.user.image,
-        },
-      };
+    const reviewsToReturn = [];
+    const updatedReviews = allReviews.reverse().map((review) => {
+      if (reviewsToReturn.length < 3) {
+        reviewsToReturn.push({
+          id: review.id,
+          message: review.message,
+          rating: review.rating,
+          user: {
+            id: review.user.id,
+            name: review.user.name,
+            email: review.user.email,
+            image: review.user.image,
+          },
+        });
+      } else {
+        return;
+      }
     });
-    return updatedReviews;
+    return reviewsToReturn;
   }
 
   async getReviewById(id: string) {
