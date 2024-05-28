@@ -127,7 +127,7 @@ export class UserRepository {
       { expiresIn: '1h' },
     );
 
-    const resetLink = `http://example.com/reset/${token}`;
+    const resetLink = `http://localhost:3000/newpassword/${token}`;
 
     await this.emailSenderRepository.sendPasswordResetEmail(
       resetLink,
