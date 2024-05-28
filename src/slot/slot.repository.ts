@@ -79,6 +79,7 @@ export class SlotRepository {
         start_time: LessThan(endTime),
         end_time: MoreThan(startTime),
         parking_lot: parking,
+        status: 'active',
       },
       relations: ['slot'],
     });
