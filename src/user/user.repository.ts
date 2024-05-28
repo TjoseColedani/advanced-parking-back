@@ -32,7 +32,7 @@ export class UserRepository {
   async getUserById(id: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { id },
-      select: ['id', 'name', 'email', 'phone', 'image', 'status'],
+      select: ['id', 'name', 'email', 'phone', 'image', 'status', 'role'],
       relations: { appointments: { parking_lot: true } },
     });
     if (!user) throw new NotFoundException('User not found');
@@ -66,7 +66,7 @@ export class UserRepository {
     const newUser = await this.userRepository.save(user);
     return this.userRepository.findOne({
       where: { id: newUser.id },
-      select: ['id', 'name', 'email', 'phone', 'image'],
+      select: ['id', 'name', 'email', 'phone', 'image', 'role'],
     });
   }
 
