@@ -9,6 +9,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Payment } from 'src/entities/payment.entity';
 import { User } from 'src/entities/user.entity';
 import { PaymentRepository } from './payment.repository';
+import { EmailSenderModule } from 'src/email-sender/email-sender.module';
+import { EmailSenderRepository } from 'src/email-sender/email-sender.repository';
 
 @Module({
   imports: [
@@ -16,13 +18,15 @@ import { PaymentRepository } from './payment.repository';
       envFilePath: ['.env.development'],
     }),
     UserModule,
-    TypeOrmModule.forFeature([User, Payment])
+    TypeOrmModule.forFeature([User, Payment]),
+    EmailSenderModule,
   ],
   controllers: [PaymentController],
   providers: [
     PaymentService,
     PaymentRepository,
     UserRepository,
+    EmailSenderRepository,
     {
       provide: Stripe,
       useFactory: (configService: ConfigService) => {
