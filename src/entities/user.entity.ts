@@ -3,6 +3,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Appointment } from './appointment.entity';
 import { Payment } from './payment.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Review } from './review.entity';
 
 @Entity({
   name: 'users',
@@ -70,5 +71,8 @@ export class User {
   appointments: Appointment[];
 
   @OneToMany(() => Payment, (payment) => payment.user)
-  payment: Payment;
+  payment: Payment[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 }
