@@ -3,12 +3,18 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateUserAuthDto, CreateUserDto } from 'src/dtos/user.dto';
+import {
+  CreateUserAuthDto,
+  CreateUserDto,
+  UpdatePasswordDto,
+} from 'src/dtos/user.dto';
 import { UserRepository } from 'src/user/user.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/entities/user.entity';
 import { EmailSenderRepository } from 'src/email-sender/email-sender.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +22,8 @@ export class AuthService {
     private readonly usersRepository: UserRepository,
     private jwtService: JwtService,
     private readonly emailSenderRepository: EmailSenderRepository,
+    @InjectRepository(User)
+    private readonly userRepositoryFromEntity: Repository<User>,
   ) {}
 
   async signup(user: CreateUserDto) {
@@ -107,5 +115,29 @@ export class AuthService {
       token,
       userData,
     };
+  }
+
+  async updatePassword(updatePassword: UpdatePasswordDto) {
+    const user = await this.usersRepository.getUserByEmail(
+      updatePassword.email,
+    );
+
+    if (!user) throw new UnauthorizedException('invalid credentials');
+
+    const isValidPassword = await bcrypt.compare(
+      updatePassword.password,
+      user.password,
+    );
+    if (!isValidPassword)
+      throw new UnauthorizedException('Previous password is not valid');
+    const hashedPassword = await bcrypt.hash(updatePassword.newPassword, 10);
+    if (!hashedPassword)
+      throw new BadRequestException('Error to hash password');
+
+    const updatedUser = await this.userRepositoryFromEntity.update(user.id, {
+      password: hashedPassword,
+    });
+    if (!updatedUser) throw new BadRequestException('Error to update user');
+    return 'Password updated successfully';
   }
 }
