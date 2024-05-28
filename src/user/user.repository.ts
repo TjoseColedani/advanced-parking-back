@@ -127,7 +127,7 @@ export class UserRepository {
       { expiresIn: '1h' },
     );
 
-    const resetLink = `https://advanced-parking.vercel.app/${token}`;
+    const resetLink = `https://advanced-parking.vercel.app/newpassword/${token}`;
 
     await this.emailSenderRepository.sendPasswordResetEmail(
       resetLink,
