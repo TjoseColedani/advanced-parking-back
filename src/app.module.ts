@@ -17,6 +17,7 @@ import { EmailSenderModule } from './email-sender/email-sender.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { SchedulerModule } from './scheduler/scheduler.module';
 import { SchedulerService } from './scheduler/scheduler.service';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { SchedulerService } from './scheduler/scheduler.service';
     EmailSenderModule,
     FileUploadModule,
     SchedulerModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
