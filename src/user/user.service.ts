@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateUserDto } from 'src/dtos/user.dto';
+import {
+  ResetPasswordDto,
+  UpdateUserDto,
+  UserEmailDto,
+} from 'src/dtos/user.dto';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -22,5 +26,13 @@ export class UserService {
   }
   async createAdmin() {
     return await this.userRepository.createAdmin();
+  }
+
+  async requestPasswordReset(userEmailDto: UserEmailDto) {
+    return await this.userRepository.requestPasswordReset(userEmailDto);
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    return await this.userRepository.resetPassword(resetPasswordDto);
   }
 }

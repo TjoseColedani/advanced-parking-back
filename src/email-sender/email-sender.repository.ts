@@ -109,4 +109,29 @@ export class EmailSenderRepository {
              <p>User Email: ${userFormSenderDto.user_email}</p>`,
     });
   }
+
+  async sendPasswordResetEmail(
+    resetLink: string,
+    email: string,
+  ): Promise<void> {
+    await this.emailSenderRepository.sendMail({
+      to: email,
+      from: 'advancedparking.2024@gmail.com',
+      subject: 'Password Reset Request',
+      text: `Hello,
+
+      You requested a password reset. Click the link below to reset your password:
+      ${resetLink}
+
+      If you did not request this, please ignore this email.
+
+      Sincerely,
+      Advanced Parking`,
+      html: `<p>Hello,</p>
+      <p>You requested a password reset. Click the link below to reset your password:</p>
+      <p><a href="${resetLink}">Reset Password</a></p>
+      <p>If you did not request this, please ignore this email.</p>
+      <p>Sincerely,<br>Advanced Parking</p>`,
+    });
+  }
 }
