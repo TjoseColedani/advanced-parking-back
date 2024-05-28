@@ -10,7 +10,11 @@ import {
   Post,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UpdateUserDto } from 'src/dtos/user.dto';
+import {
+  ResetPasswordDto,
+  UpdateUserDto,
+  UserEmailDto,
+} from 'src/dtos/user.dto';
 import { Roles } from 'src/decorators/roles.decorators';
 import { Role } from 'src/enums/roles.enum';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -57,5 +61,15 @@ export class UserController {
   @ApiOperation({ summary: 'Create admin seeder' })
   createAdmin() {
     return this.userService.createAdmin();
+  }
+
+  @Post('request-password-reset')
+  requestPassworReset(@Body() userEmailDto: UserEmailDto) {
+    return this.userService.requestPasswordReset(userEmailDto);
+  }
+
+  @Post('reset-password')
+  resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.userService.resetPassword(resetPasswordDto);
   }
 }

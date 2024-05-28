@@ -197,3 +197,32 @@ export class LoginUserDto {
   @IsString()
   password: string;
 }
+
+export class UserEmailDto extends PickType(CreateUserDto, ['email']) {}
+
+export class ResetPasswordDto {
+  @IsString()
+  @IsNotEmpty()
+  token: string;
+
+  /**
+   * Debe ser un string con al menos una letra minúscula, una letra mayúscula, un número y uno de los siguientes caracteres especiales
+   * @example 'CarlosGarcia123!'
+   */
+  @ApiProperty({
+    description:
+      'Contraseña del usuario, debe contener al menos una letra minúscula, una letra mayúscula, un número y un carácter especial',
+    example: 'CarlosGarcia123!',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @Matches(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/,
+    {
+      message:
+        'La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y uno de los siguientes caracteres especiales: !@#$%^&*',
+    },
+  )
+  @Length(8, 15)
+  newPassword: string;
+}
