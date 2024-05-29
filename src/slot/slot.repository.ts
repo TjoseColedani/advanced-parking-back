@@ -91,7 +91,6 @@ export class SlotRepository {
         slot.slot_status = SlotStatus.Unavailable;
         return slot;
       } else {
-        slot.slot_status = SlotStatus.Available;
         return slot;
       }
     });
