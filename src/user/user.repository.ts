@@ -63,9 +63,13 @@ export class UserRepository {
   }
 
   async createUserAuth(user: User) {
-    const newUser = await this.userRepository.save(user);
+    const newUser = await this.userRepository.upsert(user, ['email']);
+    if (!newUser) throw new BadRequestException('User already exists');
+    const createdUser = await this.userRepository.findOne({
+      where: { email: user.email },
+    });
     return this.userRepository.findOne({
-      where: { id: newUser.id },
+      where: { id: createdUser.id },
       select: ['id', 'name', 'email', 'phone', 'image', 'role'],
     });
   }
